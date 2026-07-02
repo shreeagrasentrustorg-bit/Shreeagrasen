@@ -22,12 +22,7 @@ export function Section({
 }
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-600">
-      <span className="h-px w-6 bg-brand-500" />
-      {children}
-    </span>
-  );
+  return <span className="gold-eyebrow text-sm">{children}</span>;
 }
 
 export function SectionHeading({

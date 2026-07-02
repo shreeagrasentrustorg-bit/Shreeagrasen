@@ -25,6 +25,23 @@
   --color-accent-600: #0f766e;
   --color-accent-700: #115e59;
 
+  /* Gold — regal accent for a premium, traditional feel */
+  --color-gold-50:  #fdf9ec;
+  --color-gold-100: #faf0cd;
+  --color-gold-200: #f3df97;
+  --color-gold-300: #ecc75a;
+  --color-gold-400: #e3b33a;
+  --color-gold-500: #d4af37;  /* classic gold */
+  --color-gold-600: #b8860b;  /* dark goldenrod */
+  --color-gold-700: #946a10;
+  --color-gold-800: #7a5613;
+  --color-gold-900: #5c3f12;
+
+  /* Warm section tints (alternating backgrounds) */
+  --color-ivory:     #fffef7;
+  --color-creamgold: #fff8ee;
+  --color-maroon:    #1a0a0a;  /* rich deep maroon-black for dark sections */
+
   /* Warm neutral (stone-ish) */
   --color-ink:      #1c1917;
   --color-body:     #44403c;
@@ -42,7 +59,8 @@
 
   /* Fonts (mapped from next/font CSS vars) */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-head: var(--font-poppins), var(--font-inter), sans-serif;
+  --font-head: var(--font-playfair), var(--font-poppins), serif;
+  --font-body-head: var(--font-poppins), var(--font-inter), sans-serif;
   --font-deva: var(--font-noto-deva), var(--font-inter), sans-serif;
 
   /* Radius */
@@ -53,6 +71,8 @@
   --shadow-soft: 0 1px 3px rgb(28 25 23 / 0.06), 0 1px 2px rgb(28 25 23 / 0.04);
   --shadow-card: 0 10px 30px -12px rgb(28 25 23 / 0.15);
   --shadow-lift: 0 20px 45px -18px rgb(120 63 17 / 0.28);
+  --shadow-gold: 0 10px 40px -10px rgba(212,175,55,0.35), 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-goldglow: 0 0 20px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.12);
 }
 
 /* Force light theme, smooth scroll */
@@ -62,7 +82,11 @@ html {
 }
 
 body {
-  background: #ffffff;
+  /* Warm cream base with an extremely faint golden dot texture */
+  background-color: #fffdf8;
+  background-image:
+    radial-gradient(rgba(212,175,55,0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
   color: var(--color-body);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -102,8 +126,132 @@ a { text-decoration: none; }
 /* Decorative radial glow */
 .hero-glow {
   background:
-    radial-gradient(60% 60% at 80% 10%, rgba(246,147,35,0.16), transparent 60%),
-    radial-gradient(45% 45% at 10% 90%, rgba(15,118,110,0.10), transparent 60%);
+    radial-gradient(60% 60% at 80% 10%, rgba(212,175,55,0.18), transparent 60%),
+    radial-gradient(45% 45% at 10% 90%, rgba(246,147,35,0.10), transparent 60%);
 }
 
-* { scrollbar-width: thin; scrollbar-color: var(--color-brand-300) transparent; }
+* { scrollbar-width: thin; scrollbar-color: var(--color-gold-400) transparent; }
+
+/* ============================================================
+   Golden theme — gradients, glows, shimmer & motion utilities
+   ============================================================ */
+
+/* Fills */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+}
+.text-gold-gradient {
+  background: linear-gradient(120deg, #b8860b 0%, #d4af37 40%, #f6c945 60%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.shadow-gold { box-shadow: var(--shadow-gold); }
+.glow-gold { box-shadow: var(--shadow-goldglow); }
+
+/* Ambient golden radiance behind an element (headings, hero) */
+.ambient-gold { position: relative; isolation: isolate; }
+.ambient-gold::before {
+  content: "";
+  position: absolute;
+  inset: -30% -15%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 45%, rgba(212,175,55,0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Section eyebrow label with a golden lead line */
+.gold-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-gold-700);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.gold-eyebrow::before {
+  content: "";
+  width: 2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold-500));
+}
+
+/* Hero heading — subtle golden text-shadow */
+.hero-heading {
+  text-shadow: 0 0 40px rgba(212,175,55,0.28), 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Animated golden shimmer on text (hero heading accent) */
+@keyframes text-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, #b8860b 0%, #d4af37 40%, #ffe9a3 50%, #d4af37 60%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+/* Button shimmer sweep (used via ::before on .btn-shine) */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-140%) skewX(-18deg); }
+  100% { transform: translateX(260%) skewX(-18deg); }
+}
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: translateX(-140%) skewX(-18deg);
+  pointer-events: none;
+}
+.btn-shine:hover::after { animation: shimmer-sweep 0.7s ease-out; }
+
+/* Pulsing golden ring (logo, WhatsApp FAB) */
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.45); }
+  50% { box-shadow: 0 0 18px 4px rgba(212,175,55,0.55); }
+}
+.animate-pulse-gold { animation: pulse-gold 2.6s ease-in-out infinite; }
+
+/* Card hover — lift + golden glow + border */
+.card-premium {
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.3s ease;
+}
+.card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 22px rgba(212,175,55,0.28), var(--shadow-card);
+  border-color: rgba(212,175,55,0.5);
+}
+
+/* Floating golden particles (hero) */
+@keyframes particle-float {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  12% { opacity: 0.7; }
+  88% { opacity: 0.5; }
+  100% { transform: translateY(-140px) scale(1.35); opacity: 0; }
+}
+
+/* Golden focus glow for inputs */
+.gold-focus:focus {
+  border-color: var(--color-gold-500) !important;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.2) !important;
+  outline: none;
+}
+
+/* Reduced-motion: silence the ambient/looping animations */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-text, .animate-pulse-gold { animation: none !important; }
+  .btn-shine:hover::after { animation: none !important; }
+}

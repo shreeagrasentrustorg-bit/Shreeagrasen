@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, Noto_Sans_Devanagari } from "next/font/google";
+import { Inter, Poppins, Playfair_Display, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -15,6 +15,13 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
   variable: "--font-poppins",
+  display: "swap",
+});
+// Regal serif for display headings — gives the trust a dignified, traditional feel.
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-playfair",
   display: "swap",
 });
 const noto = Noto_Sans_Devanagari({
@@ -76,9 +83,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${poppins.variable} ${noto.variable}`}
+      className={`${inter.variable} ${poppins.variable} ${playfair.variable} ${noto.variable}`}
     >
-      <body className="min-h-screen bg-white antialiased">
+      <body className="min-h-screen antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
