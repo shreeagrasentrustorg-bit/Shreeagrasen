@@ -10,6 +10,7 @@ import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
 import { BrandMark } from "@/components/brand-mark";
 import { VisitorCounter } from "@/components/visitor-counter";
+import { NewsletterForm } from "@/components/newsletter-form";
 
 const socials = [
   { href: site.facebook, label: "Facebook", Icon: FacebookIcon },
@@ -117,7 +118,7 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Donate CTA */}
+        {/* Donate CTA + Newsletter */}
         <div className="rounded-2xl bg-white p-6 shadow-soft">
           <h3 className="font-head text-lg font-bold text-ink">Support the Trust</h3>
           <p className="mt-2 text-sm text-muted">
@@ -127,6 +128,12 @@ export function Footer() {
           <ButtonLink href="/donate" className="mt-4 w-full">
             <HeartHandshake className="h-4 w-4" /> Donate Now
           </ButtonLink>
+
+          <div className="mt-5 border-t border-line pt-4">
+            <h4 className="text-sm font-semibold text-ink">Sign up for our newsletter</h4>
+            <p className="mt-1 text-xs text-muted">Events, programs & community news.</p>
+            <NewsletterForm />
+          </div>
         </div>
       </div>
 

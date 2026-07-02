@@ -83,6 +83,21 @@ export async function sendBookingEmails(b: BookingPayload) {
   return { sent: true };
 }
 
+export async function sendNewsletterWelcome(email: string) {
+  if (!resend) return { sent: false, reason: "email-not-configured" };
+  await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: `You're subscribed — ${site.name}`,
+    html: shell(
+      "Welcome to our newsletter",
+      `<p style="color:#44403c;font-size:14px;line-height:1.6">Thank you for subscribing to updates from ${site.name}. You'll now receive news about our events, cultural programs and community initiatives.</p>
+       <p style="color:#78716c;font-size:13px;margin-top:16px">If this wasn't you, you can ignore this email.</p>`
+    ),
+  });
+  return { sent: true };
+}
+
 export async function sendContactEmails(c: {
   name: string; phone: string; email?: string; subject?: string; message: string;
 }) {
