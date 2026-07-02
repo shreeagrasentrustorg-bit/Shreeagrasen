@@ -43,11 +43,26 @@ export const site = {
   },
 };
 
-export const nav = [
+export type NavItem = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+};
+
+export const nav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Committee", href: "/committee" },
-  { label: "Services", href: "/services" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      { label: "Halls", href: "/services#hall-booking" },
+      { label: "Rooms", href: "/services#hall-booking" },
+      { label: "Health Centers", href: "/services#health-services" },
+      { label: "Cultural Programs", href: "/services#cultural-programs" },
+    ],
+  },
   { label: "Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Membership", href: "/membership" },
