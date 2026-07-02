@@ -109,11 +109,12 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — scrollable so nothing (e.g. Login) gets clipped on
+          short screens. overflow-hidden only while collapsed, for the animation. */}
       <div
         className={cn(
-          "lg:hidden overflow-hidden border-t border-line bg-white transition-[max-height] duration-300 ease-in-out",
-          open ? "max-h-[90vh]" : "max-h-0"
+          "lg:hidden border-t border-line bg-white transition-[max-height] duration-300 ease-in-out",
+          open ? "max-h-[80vh] overflow-y-auto overscroll-contain" : "max-h-0 overflow-hidden"
         )}
       >
         <nav className="container-x flex flex-col py-4">
@@ -126,6 +127,11 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          {/* Auth (Login / Dashboard / Logout) — kept directly under the links
+              so it's reachable without hunting past the CTAs and phone number. */}
+          <div className="mt-3">
+            <AuthNav mobile />
+          </div>
           <div className="mt-3 grid grid-cols-2 gap-3">
             <ButtonLink href="/donate" variant="outline" size="md">
               <HeartHandshake className="h-4 w-4" /> Donate
@@ -140,9 +146,6 @@ export function Header() {
           >
             <Phone className="h-4 w-4 text-brand-600" /> {site.phones[0]}
           </a>
-          <div className="mt-3">
-            <AuthNav mobile />
-          </div>
         </nav>
       </div>
     </header>

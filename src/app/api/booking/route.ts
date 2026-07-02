@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin, insertResilient, BOOKING_BUCKET } from "@/lib/supabase";
+import { insertResilient, uploadDocument, BOOKING_BUCKET } from "@/lib/supabase";
 import { sendBookingEmails } from "@/lib/email";
 
 export const runtime = "nodejs";
@@ -39,11 +39,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
     }
 
-    const admin = getSupabaseAdmin();
     let documentUrl: string | undefined;
-    let documentPath: string | undefined;
+    // What we store in the `document_path` column: prefer the clickable signed
+    // URL, fall back to the storage path if signing failed.
+    let documentRef: string | undefined;
 
-    // Optional document upload → private Storage bucket (needs service role).
+    // Optional document upload → private Storage bucket.
     const file = form.get("document");
     if (file && file instanceof File && file.size > 0) {
       if (file.size > MAX_FILE) {
@@ -52,24 +53,21 @@ export async function POST(req: Request) {
       if (!ALLOWED.includes(file.type)) {
         return NextResponse.json({ error: "Only PDF, JPG or PNG allowed." }, { status: 400 });
       }
-      if (admin) {
-        const ext = file.name.split(".").pop() || "bin";
-        const safe = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 24);
-        documentPath = `${new Date().getFullYear()}/${Date.now()}-${safe}.${ext}`;
-        const bytes = Buffer.from(await file.arrayBuffer());
-        const { error: upErr } = await admin.storage
-          .from(BOOKING_BUCKET)
-          .upload(documentPath, bytes, { contentType: file.type, upsert: false });
-        if (upErr) {
-          console.error("Storage upload failed:", upErr.message);
-          documentPath = undefined; // don't store a path we couldn't upload
-        } else {
-          const { data: signed } = await admin.storage
-            .from(BOOKING_BUCKET)
-            .createSignedUrl(documentPath, 60 * 60 * 24 * 30);
-          documentUrl = signed?.signedUrl;
-        }
+      const ext = file.name.split(".").pop() || "bin";
+      const safe = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 24);
+      const path = `${new Date().getFullYear()}/${Date.now()}-${safe}.${ext}`;
+      const bytes = Buffer.from(await file.arrayBuffer());
+      const result = await uploadDocument(BOOKING_BUCKET, path, bytes, file.type);
+      if (result.error) {
+        // Surface the failure to the user instead of silently dropping the file.
+        console.error("Booking document upload failed:", result.error);
+        return NextResponse.json(
+          { error: "We couldn't upload your document. Please try again or call us." },
+          { status: 500 }
+        );
       }
+      documentUrl = result.url;
+      documentRef = result.url || result.path;
     }
 
     // Persist booking (service role, else anon+RLS policy).
@@ -78,7 +76,7 @@ export async function POST(req: Request) {
       event_date, alt_date: alt_date || null,
       guests: guests ? Number(guests) : null,
       message: message || null,
-      document_path: documentPath || null,
+      document_path: documentRef || null,
       status: "new",
     });
 

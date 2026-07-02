@@ -18,11 +18,14 @@ import { updateBookingStatus, updateMembershipStatus } from "./actions";
 export const metadata: Metadata = { title: "Admin Dashboard", robots: { index: false } };
 export const dynamic = "force-dynamic";
 
-async function signedUrl(bucket: string, path: string | null) {
-  if (!path) return null;
+async function signedUrl(bucket: string, ref: string | null) {
+  if (!ref) return null;
+  // New rows store a ready-to-use signed URL; use it directly.
+  if (/^https?:\/\//.test(ref)) return ref;
+  // Older rows store just the storage path → sign it on the fly.
   const admin = getSupabaseAdmin();
   if (!admin) return null;
-  const { data } = await admin.storage.from(bucket).createSignedUrl(path, 60 * 30);
+  const { data } = await admin.storage.from(bucket).createSignedUrl(ref, 60 * 30);
   return data?.signedUrl ?? null;
 }
 

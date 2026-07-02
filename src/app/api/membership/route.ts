@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin, uploadDocument, MEMBER_BUCKET } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
 const MAX_FILE = 5 * 1024 * 1024;
 const ALLOWED = ["application/pdf", "image/jpeg", "image/png"];
-const BUCKET = "member-documents";
 
 export async function POST(req: Request) {
   try {
@@ -37,10 +36,11 @@ export async function POST(req: Request) {
 
     const admin = getSupabaseAdmin();
 
-    // Optional ID document → private member-documents bucket (service role).
-    let documentPath: string | undefined;
+    // Optional ID document → private member-documents bucket.
+    // Store the clickable signed URL (fall back to the storage path).
+    let documentRef: string | undefined;
     const file = form.get("document");
-    if (file && file instanceof File && file.size > 0 && admin) {
+    if (file && file instanceof File && file.size > 0) {
       if (file.size > MAX_FILE) {
         return NextResponse.json({ error: "File too large (max 5 MB)." }, { status: 400 });
       }
@@ -48,15 +48,17 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Only PDF, JPG or PNG allowed." }, { status: 400 });
       }
       const ext = file.name.split(".").pop() || "bin";
-      documentPath = `${user.id}/${Date.now()}.${ext}`;
+      const path = `${user.id}/${Date.now()}.${ext}`;
       const bytes = Buffer.from(await file.arrayBuffer());
-      const { error: upErr } = await admin.storage
-        .from(BUCKET)
-        .upload(documentPath, bytes, { contentType: file.type, upsert: false });
-      if (upErr) {
-        console.error("Member doc upload failed:", upErr.message);
-        documentPath = undefined;
+      const result = await uploadDocument(MEMBER_BUCKET, path, bytes, file.type);
+      if (result.error) {
+        console.error("Member doc upload failed:", result.error);
+        return NextResponse.json(
+          { error: "We couldn't upload your document. Please try again." },
+          { status: 500 }
+        );
       }
+      documentRef = result.url || result.path;
     }
 
     const row = {
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
       address: get("address") || null,
       dob: get("dob") || null,
       family_count: get("family_count") ? Number(get("family_count")) : null,
-      document_path: documentPath || null,
+      document_path: documentRef || null,
       status: "pending",
     };
 

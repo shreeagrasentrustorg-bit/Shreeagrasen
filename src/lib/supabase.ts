@@ -9,9 +9,14 @@ export function getSupabaseAdmin(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !serviceKey) return null;
-  return createClient(url, serviceKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
+  try {
+    return createClient(url, serviceKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+  } catch (e) {
+    console.error("[getSupabaseAdmin] createClient failed:", e);
+    return null;
+  }
 }
 
 /**
@@ -61,3 +66,54 @@ export async function insertResilient(
 }
 
 export const BOOKING_BUCKET = "booking-documents";
+export const MEMBER_BUCKET = "member-documents";
+
+/**
+ * Upload a file to a private Storage bucket and return a long-lived signed URL.
+ *
+ * Uses the Storage REST API directly (service-role key) instead of the
+ * supabase-js client. This is intentional: supabase-js constructs a realtime
+ * client on init, which throws on runtimes without a native WebSocket
+ * (e.g. Node ≤20 in local dev). Storage is pure REST, so calling it directly
+ * makes uploads work everywhere and lets us surface the real error.
+ *
+ * @returns `{ url }` (signed, clickable) on success, or `{ error }` on failure.
+ */
+export async function uploadDocument(
+  bucket: string,
+  path: string,
+  bytes: Buffer,
+  contentType: string,
+  signedUrlTtlSeconds = 60 * 60 * 24 * 365 // 1 year
+): Promise<{ url?: string; path?: string; error?: string }> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceKey) return { error: "Storage is not configured (missing service-role key)." };
+
+  const headers = { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` };
+
+  // 1) Upload the object.
+  const upRes = await fetch(`${url}/storage/v1/object/${bucket}/${path}`, {
+    method: "POST",
+    headers: { ...headers, "Content-Type": contentType, "x-upsert": "false" },
+    body: new Uint8Array(bytes),
+  });
+  if (!upRes.ok) {
+    const detail = await upRes.text().catch(() => "");
+    return { error: `Upload failed (${upRes.status}): ${detail}` };
+  }
+
+  // 2) Create a signed URL so the file is clickable while the bucket stays private.
+  const signRes = await fetch(`${url}/storage/v1/object/sign/${bucket}/${path}`, {
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify({ expiresIn: signedUrlTtlSeconds }),
+  });
+  if (!signRes.ok) {
+    // File uploaded fine; just couldn't sign. Return the path so it's not lost.
+    return { path };
+  }
+  const signed = (await signRes.json()) as { signedURL?: string };
+  const signedUrl = signed.signedURL ? `${url}/storage/v1${signed.signedURL}` : undefined;
+  return { url: signedUrl, path };
+}
