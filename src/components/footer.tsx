@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, HeartHandshake } from "lucide-react";
 import { FacebookIcon, YoutubeIcon } from "@/components/brand-icons";
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
+import { BrandMark } from "@/components/brand-mark";
 
 export function Footer() {
   return (
@@ -11,9 +12,7 @@ export function Footer() {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-500 font-head text-lg font-extrabold text-white">
-              अ
-            </span>
+            <BrandMark className="h-11 w-11" />
             <span className="font-head text-lg font-bold text-ink">
               Shree Agrasen Trust
             </span>

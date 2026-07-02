@@ -7,6 +7,7 @@ import { Menu, X, Phone, HeartHandshake } from "lucide-react";
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
 import { AuthNav } from "@/components/auth/auth-nav";
+import { BrandMark } from "@/components/brand-mark";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -42,9 +43,7 @@ export function Header() {
       <div className="container-x flex h-16 items-center justify-between gap-4 md:h-20">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-500 font-head text-lg font-extrabold text-white shadow-[0_6px_16px_-6px_rgba(246,147,35,0.8)]">
-            अ
-          </span>
+          <BrandMark className="h-11 w-11 shadow-[0_6px_16px_-6px_rgba(246,147,35,0.8)]" priority />
           <span className="leading-tight">
             <span className="block font-head text-base font-bold text-ink md:text-lg">
               Shree Agrasen Trust

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/brand-mark";
 
 export function AuthShell({
   title,
@@ -15,9 +16,7 @@ export function AuthShell({
     <section className="hero-glow flex min-h-[80vh] items-center justify-center bg-surface px-4 py-16">
       <div className="w-full max-w-md">
         <Link href="/" className="mx-auto mb-6 flex w-fit items-center gap-2">
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-500 font-head text-lg font-extrabold text-white">
-            अ
-          </span>
+          <BrandMark className="h-11 w-11" />
           <span className="font-head text-lg font-bold text-ink">
             Shree Agrasen Trust
           </span>
