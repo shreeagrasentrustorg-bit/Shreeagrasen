@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+// import Link from "next/link"; // re-enable with the create-account footer below
 import { useSearchParams } from "next/navigation";
 import { Loader2, LogIn } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -41,14 +41,17 @@ export function LoginForm() {
     <AuthShell
       title="Sign in"
       subtitle="Members & committee — access your account."
-      footer={
-        <>
-          New member?{" "}
-          <Link href="/register" className="font-semibold text-brand-700">
-            Create an account
-          </Link>
-        </>
-      }
+      // Create-account link temporarily disabled — login only for now.
+      // To re-enable, restore the footer below:
+      // footer={
+      //   <>
+      //     New member?{" "}
+      //     <Link href="/register" className="font-semibold text-brand-700">
+      //       Create an account
+      //     </Link>
+      //   </>
+      // }
+      footer={null}
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
