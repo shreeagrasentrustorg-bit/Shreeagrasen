@@ -11,6 +11,12 @@ export const metadata: Metadata = {
     "The elected Managing Committee (2022–2025) and Panch Committee of Shree Agrasen Trust, Chinchwad–Pradhikaran.",
 };
 
+/** Initials for the avatar fallback, skipping honorifics (Shri / CA. / Dr.). */
+function initials(name: string) {
+  const words = name.replace(/^(Shri|Smt\.?|CA\.?|Dr\.?)\s+/i, "").split(/\s+/);
+  return words.slice(0, 2).map((w) => w[0]?.toUpperCase() ?? "").join("");
+}
+
 export default function CommitteePage() {
   return (
     <>
@@ -31,13 +37,21 @@ export default function CommitteePage() {
             <Reveal key={`${m.name}-${i}`} delay={(i % 4) * 0.05}>
               <div className="group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft transition-all hover:-translate-y-1 hover:shadow-card">
                 <div className="relative aspect-[4/5] overflow-hidden bg-surface2">
-                  <Image
-                    src={`/images/committee/${m.img}`}
-                    alt={m.name}
-                    fill
-                    sizes="(max-width:640px) 100vw, (max-width:1280px) 33vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                  {m.img ? (
+                    <Image
+                      src={`/images/committee/${m.img}`}
+                      alt={m.name}
+                      fill
+                      sizes="(max-width:640px) 100vw, (max-width:1280px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-50 to-accent-600/10">
+                      <span className="font-head text-4xl font-extrabold text-brand-600">
+                        {initials(m.name)}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-5">
                   <h3 className="font-head text-base font-bold leading-snug text-ink">

@@ -68,6 +68,75 @@ export async function insertResilient(
 export const BOOKING_BUCKET = "booking-documents";
 export const MEMBER_BUCKET = "member-documents";
 
+/** Service-role REST context, or null if the key/url aren't configured. */
+function serviceEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceKey) return null;
+  return { url, headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` } };
+}
+
+/** True when the service-role key is available (server can read admin data). */
+export function hasServiceRole() {
+  return serviceEnv() !== null;
+}
+
+/**
+ * Read all rows of a table via the PostgREST endpoint using the service-role key
+ * (bypasses RLS). Direct REST — no supabase-js client construction, so it works
+ * on any Node runtime. Returns `[]` on any failure (logged).
+ */
+export async function selectAllRest<T = Record<string, unknown>>(
+  table: string,
+  orderColumn = "created_at"
+): Promise<T[]> {
+  const env = serviceEnv();
+  if (!env) return [];
+  try {
+    const res = await fetch(
+      `${env.url}/rest/v1/${table}?select=*&order=${orderColumn}.desc`,
+      { headers: env.headers, cache: "no-store" }
+    );
+    if (!res.ok) {
+      console.error(`[selectAllRest:${table}] ${res.status}:`, await res.text().catch(() => ""));
+      return [];
+    }
+    return (await res.json()) as T[];
+  } catch (e) {
+    console.error(`[selectAllRest:${table}] failed:`, e);
+    return [];
+  }
+}
+
+/**
+ * Create a signed URL for a private Storage object via REST.
+ * `ref` may already be a full URL (new rows store one) — returned as-is.
+ * Returns null if signing isn't possible.
+ */
+export async function signObjectRest(
+  bucket: string,
+  ref: string | null,
+  ttlSeconds = 60 * 60
+): Promise<string | null> {
+  if (!ref) return null;
+  if (/^https?:\/\//.test(ref)) return ref; // already a signed URL
+  const env = serviceEnv();
+  if (!env) return null;
+  try {
+    const res = await fetch(`${env.url}/storage/v1/object/sign/${bucket}/${ref}`, {
+      method: "POST",
+      headers: { ...env.headers, "Content-Type": "application/json" },
+      body: JSON.stringify({ expiresIn: ttlSeconds }),
+    });
+    if (!res.ok) return null;
+    const signed = (await res.json()) as { signedURL?: string };
+    return signed.signedURL ? `${env.url}/storage/v1${signed.signedURL}` : null;
+  } catch (e) {
+    console.error(`[signObjectRest:${bucket}] failed:`, e);
+    return null;
+  }
+}
+
 /**
  * Upload a file to a private Storage bucket and return a long-lived signed URL.
  *

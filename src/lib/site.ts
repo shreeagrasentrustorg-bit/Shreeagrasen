@@ -138,7 +138,9 @@ export const panchCommittee = [
 /* Present elected committee 2022–2025.
    NOTE: phone numbers omitted here for privacy (they were public on the old
    site). Add back a single office contact instead if the trust approves. */
-export const committee = [
+export type CommitteeMember = { name: string; post: string; img: string | null };
+
+export const committee: CommitteeMember[] = [
   { name: "Shri Sunil Rameshwar Agarwal", post: "Chairman", img: "member-01.jpg" },
   { name: "Shri Subhash Devichand Bansal", post: "Karyadhyaksh", img: "member-02.jpg" },
   { name: "Shri Satpal Bhagatram Mittal", post: "Secretary", img: "member-03.jpg" },
@@ -152,8 +154,10 @@ export const committee = [
   { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", img: "member-11.jpg" },
   { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", img: "member-12.jpg" },
   { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", img: "member-13.jpg" },
-  { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", img: "member-01.jpg" },
-  { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Margdarshak", img: "member-02.jpg" },
+  // No dedicated photo available yet → render an initials avatar rather than
+  // reusing another member's picture (which caused duplicate faces).
+  { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", img: null },
+  { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Margdarshak", img: null },
 ];
 
 export const galleryImages = [

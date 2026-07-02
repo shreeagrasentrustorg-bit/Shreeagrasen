@@ -10,7 +10,13 @@ import {
 import { PageBanner } from "@/components/page-banner";
 import { Section } from "@/components/ui/section";
 import { StatusSelect } from "@/components/admin/status-select";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import {
+  hasServiceRole,
+  selectAllRest,
+  signObjectRest,
+  BOOKING_BUCKET,
+  MEMBER_BUCKET,
+} from "@/lib/supabase";
 import { getCurrentUser, isAdminEmail } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import { updateBookingStatus, updateMembershipStatus } from "./actions";
@@ -18,32 +24,34 @@ import { updateBookingStatus, updateMembershipStatus } from "./actions";
 export const metadata: Metadata = { title: "Admin Dashboard", robots: { index: false } };
 export const dynamic = "force-dynamic";
 
-async function signedUrl(bucket: string, ref: string | null) {
-  if (!ref) return null;
-  // New rows store a ready-to-use signed URL; use it directly.
-  if (/^https?:\/\//.test(ref)) return ref;
-  // Older rows store just the storage path → sign it on the fly.
-  const admin = getSupabaseAdmin();
-  if (!admin) return null;
-  const { data } = await admin.storage.from(bucket).createSignedUrl(ref, 60 * 30);
-  return data?.signedUrl ?? null;
-}
+type Booking = {
+  id: string; created_at: string; name: string; phone: string; email: string;
+  event_type: string; venue: string; event_date: string; alt_date: string | null;
+  guests: number | null; document_path: string | null; status: string;
+};
+type Member = {
+  id: string; created_at: string; full_name: string; father_name: string | null;
+  phone: string; email: string; gotra: string | null; occupation: string | null;
+  address: string | null; document_path: string | null; status: string;
+};
+type ContactMessage = {
+  id: string; created_at: string; name: string; phone: string;
+  email: string | null; subject: string | null; message: string;
+};
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
   if (!isAdminEmail(user?.email)) redirect("/login?next=/admin");
 
-  const admin = getSupabaseAdmin();
-
-  if (!admin) {
+  if (!hasServiceRole()) {
     return (
       <>
         <PageBanner crumb="Admin" title="Admin Dashboard" />
         <Section>
           <div className="rounded-3xl border border-line bg-white p-8 text-center shadow-soft">
             <p className="text-body">
-              Supabase is not configured yet. Add the env vars to view bookings,
-              enquiries and membership applications.
+              Supabase is not configured yet. Add <code>SUPABASE_SERVICE_ROLE_KEY</code>{" "}
+              to view bookings, enquiries and membership applications.
             </p>
           </div>
         </Section>
@@ -51,17 +59,18 @@ export default async function AdminPage() {
     );
   }
 
-  const [{ data: bookings }, { data: messages }, { data: members }] = await Promise.all([
-    admin.from("bookings").select("*").order("created_at", { ascending: false }),
-    admin.from("contact_messages").select("*").order("created_at", { ascending: false }),
-    admin.from("membership_applications").select("*").order("created_at", { ascending: false }),
+  // Read via direct REST with the service-role key (bypasses RLS, no client init).
+  const [bookings, messages, members] = await Promise.all([
+    selectAllRest<Booking>("bookings"),
+    selectAllRest<ContactMessage>("contact_messages"),
+    selectAllRest<Member>("membership_applications"),
   ]);
 
   const bookingDocs = await Promise.all(
-    (bookings ?? []).map((b) => signedUrl("booking-documents", b.document_path))
+    bookings.map((b) => signObjectRest(BOOKING_BUCKET, b.document_path))
   );
   const memberDocs = await Promise.all(
-    (members ?? []).map((m) => signedUrl("member-documents", m.document_path))
+    members.map((m) => signObjectRest(MEMBER_BUCKET, m.document_path))
   );
 
   const stats = [
