@@ -109,6 +109,33 @@ export async function selectAllRest<T = Record<string, unknown>>(
 }
 
 /**
+ * Call a Postgres function (RPC) via PostgREST using the service-role key.
+ * Returns the parsed JSON result, or null on failure.
+ */
+export async function rpcRest<T = unknown>(
+  fn: string,
+  args: Record<string, unknown>
+): Promise<T | null> {
+  const env = serviceEnv();
+  if (!env) return null;
+  try {
+    const res = await fetch(`${env.url}/rest/v1/rpc/${fn}`, {
+      method: "POST",
+      headers: { ...env.headers, "Content-Type": "application/json" },
+      body: JSON.stringify(args),
+    });
+    if (!res.ok) {
+      console.error(`[rpcRest:${fn}] ${res.status}:`, await res.text().catch(() => ""));
+      return null;
+    }
+    return (await res.json()) as T;
+  } catch (e) {
+    console.error(`[rpcRest:${fn}] failed:`, e);
+    return null;
+  }
+}
+
+/**
  * Create a signed URL for a private Storage object via REST.
  * `ref` may already be a full URL (new rows store one) — returned as-is.
  * Returns null if signing isn't possible.

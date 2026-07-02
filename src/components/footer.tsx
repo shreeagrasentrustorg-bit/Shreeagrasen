@@ -9,6 +9,7 @@ import {
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
 import { BrandMark } from "@/components/brand-mark";
+import { VisitorCounter } from "@/components/visitor-counter";
 
 const socials = [
   { href: site.facebook, label: "Facebook", Icon: FacebookIcon },
@@ -141,7 +142,10 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.nameFull}. All rights reserved.
           </p>
-          <p>Established {site.founded}.</p>
+          <div className="flex items-center gap-4">
+            <VisitorCounter />
+            <p>Established {site.founded}.</p>
+          </div>
         </div>
       </div>
     </footer>
