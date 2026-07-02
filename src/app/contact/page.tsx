@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { FacebookIcon, YoutubeIcon } from "@/components/brand-icons";
+import { MapPin, Phone, Mail, Clock, ExternalLink, Sparkles } from "lucide-react";
+import {
+  FacebookIcon,
+  YoutubeIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "@/components/brand-icons";
 import { PageBanner } from "@/components/page-banner";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { ContactForm } from "@/components/contact-form";
-import { site } from "@/lib/site";
+import { site, culturalPrograms } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -17,8 +22,15 @@ export default function ContactPage() {
     { icon: MapPin, title: "Address", lines: [site.address.full] },
     { icon: Phone, title: "Phone", lines: site.phones },
     { icon: Mail, title: "Email", lines: [site.email] },
-    { icon: Clock, title: "Hours", lines: [site.hours] },
+    { icon: Clock, title: "Working hours", lines: [site.hoursDetail] },
   ];
+
+  const socials = [
+    { href: site.facebook, label: "Facebook", Icon: FacebookIcon },
+    { href: site.youtube, label: "YouTube", Icon: YoutubeIcon },
+    { href: site.twitter, label: "Twitter / X", Icon: TwitterIcon },
+    { href: site.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+  ].filter((s) => s.href);
 
   return (
     <>
@@ -47,25 +59,34 @@ export default function ContactPage() {
               ))}
             </div>
 
-            <div className="mt-6 flex gap-3">
-              <a
-                href={site.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="grid h-11 w-11 place-items-center rounded-full border border-line bg-white text-body transition-colors hover:bg-brand-500 hover:text-white"
-              >
-                <FacebookIcon className="h-5 w-5" />
-              </a>
-              <a
-                href={site.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="grid h-11 w-11 place-items-center rounded-full border border-line bg-white text-body transition-colors hover:bg-brand-500 hover:text-white"
-              >
-                <YoutubeIcon className="h-5 w-5" />
-              </a>
+            {/* Cultural & community programs */}
+            <div className="mt-6 rounded-2xl border border-gold-500/30 bg-gold-50/60 p-5 shadow-soft">
+              <h3 className="flex items-center gap-2 font-head text-sm font-bold text-ink">
+                <Sparkles className="h-4 w-4 text-gold-600" /> Regular Cultural Programs
+              </h3>
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                {culturalPrograms.map((p) => (
+                  <li key={p} className="flex items-start gap-2 text-sm text-body">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              {socials.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid h-11 w-11 place-items-center rounded-full border border-line bg-white text-body transition-all hover:border-gold-500 hover:text-gold-700 hover:shadow-[0_0_16px_rgba(212,175,55,0.45)]"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
 
             <div className="mt-6 overflow-hidden rounded-3xl border border-line shadow-card">
@@ -78,6 +99,14 @@ export default function ContactPage() {
                 allowFullScreen
               />
             </div>
+            <a
+              href={site.mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-700 hover:text-gold-800"
+            >
+              <ExternalLink className="h-4 w-4" /> Open in Google Maps
+            </a>
           </div>
 
           {/* Form */}

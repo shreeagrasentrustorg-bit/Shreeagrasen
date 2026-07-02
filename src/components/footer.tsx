@@ -1,14 +1,33 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail, HeartHandshake } from "lucide-react";
-import { FacebookIcon, YoutubeIcon } from "@/components/brand-icons";
+import { MapPin, Phone, Mail, Clock, HeartHandshake } from "lucide-react";
+import {
+  FacebookIcon,
+  YoutubeIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "@/components/brand-icons";
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
 import { BrandMark } from "@/components/brand-mark";
 
+const socials = [
+  { href: site.facebook, label: "Facebook", Icon: FacebookIcon },
+  { href: site.youtube, label: "YouTube", Icon: YoutubeIcon },
+  { href: site.twitter, label: "Twitter / X", Icon: TwitterIcon },
+  { href: site.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+].filter((s) => s.href);
+
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-surface">
-      <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    <footer className="relative overflow-hidden border-t-2 border-transparent bg-surface [border-image:linear-gradient(90deg,transparent,#d4af37,transparent)_1]">
+      {/* Large watermark */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-6 -top-10 select-none font-head text-[16rem] font-extrabold leading-none text-gold-500/[0.05]"
+      >
+        अ
+      </span>
+      <div className="container-x relative grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3">
@@ -22,24 +41,18 @@ export function Footer() {
             for culture, service and togetherness at {site.venue}, Chinchwad, Pune.
           </p>
           <div className="mt-5 flex gap-3">
-            <a
-              href={site.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white text-body transition-colors hover:bg-brand-500 hover:text-white"
-            >
-              <FacebookIcon className="h-5 w-5" />
-            </a>
-            <a
-              href={site.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white text-body transition-colors hover:bg-brand-500 hover:text-white"
-            >
-              <YoutubeIcon className="h-5 w-5" />
-            </a>
+            {socials.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white text-body transition-all hover:border-gold-500 hover:text-gold-700 hover:shadow-[0_0_16px_rgba(212,175,55,0.45)]"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -96,6 +109,10 @@ export function Footer() {
                 {site.email}
               </a>
             </li>
+            <li className="flex gap-3">
+              <Clock className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" />
+              <span>{site.hoursDetail}</span>
+            </li>
           </ul>
         </div>
 
@@ -110,6 +127,13 @@ export function Footer() {
             <HeartHandshake className="h-4 w-4" /> Donate Now
           </ButtonLink>
         </div>
+      </div>
+
+      {/* Maharaja Agrasen blessing */}
+      <div className="relative border-t border-line">
+        <p className="container-x py-4 text-center font-deva text-sm text-gold-700">
+          ॥ जय श्री अग्रसेन महाराज ॥ — सर्वे भवन्तु सुखिनः
+        </p>
       </div>
 
       <div className="border-t border-line">

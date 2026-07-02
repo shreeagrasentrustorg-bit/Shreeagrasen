@@ -6,7 +6,7 @@ import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { DynIcon } from "@/components/icon";
-import { services } from "@/lib/site";
+import { services, culturalPrograms } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -141,6 +141,22 @@ export default function ServicesPage() {
                 </li>
               ))}
             </ul>
+
+            {/* Regular annual programs */}
+            <div className="mt-6 rounded-2xl border border-gold-500/30 bg-gold-50/60 p-5">
+              <h3 className="flex items-center gap-2 font-head text-sm font-bold text-ink">
+                <Sparkles className="h-4 w-4 text-gold-600" /> Programs we hold every year
+              </h3>
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                {culturalPrograms.map((p) => (
+                  <li key={p} className="flex items-start gap-2 text-sm text-body">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <ButtonLink href="/events" variant="outline" className="mt-8">
               See our events <ArrowRight className="h-4 w-4" />
             </ButtonLink>

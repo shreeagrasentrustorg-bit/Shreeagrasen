@@ -23,10 +23,17 @@ export const site = {
   whatsapp: "918888192183", // used in wa.me link — verify/update
   email: "shreeagrasentrust@gmail.com",
   hours: "Open all days",
+  hoursDetail: "Monday – Sunday · 12:00 AM to 12:00 AM · No Holiday",
   facebook: "https://www.facebook.com/shreeagrasentrust.chinchwad",
   youtube: "https://www.youtube.com/watch?v=2GqExKSwTEA",
+  youtubeId: "2GqExKSwTEA",
+  // Social links present on the original site. Fill real URLs when available;
+  // empty strings are skipped when rendering the social row.
+  twitter: "",
+  linkedin: "",
   mapsEmbed:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120964.66028329641!2d73.69074664833363!3d18.657459699999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b82bffffffff%3A0x8c61a39bb443857d!2sShri%20Agrasen%20Trust%20Chinchwad%20Pradhikaran!5e0!3m2!1sen!2sin!4v1664043248206!5m2!1sen!2sin",
+  mapsLink: "https://www.google.com/maps/search/?api=1&query=Shri+Agrasen+Trust+Chinchwad+Pradhikaran",
   bank: {
     name: "The Cosmos Co-op. Bank Ltd.",
     branch: "Chinchwad",
@@ -87,6 +94,15 @@ export const services = [
       "Social & religious events",
     ],
   },
+];
+
+/* Regular cultural & community programs the trust runs every year. */
+export const culturalPrograms = [
+  "Agrasen Jayanti (every year)",
+  "Holi Dahan & Natkhat",
+  "Diwali Milan",
+  "Students Motivation & Felicitation",
+  "Agrasen Samaj Mahila Programs",
 ];
 
 export const stats = [

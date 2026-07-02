@@ -63,6 +63,23 @@ export default function AboutPage() {
                 that unite our community.
               </p>
             </Reveal>
+
+            {/* Trust video */}
+            <Reveal delay={0.15}>
+              <div className="mt-8 overflow-hidden rounded-3xl border border-gold-500/30 shadow-gold">
+                <div className="relative aspect-video">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${site.youtubeId}`}
+                    title="Shree Agrasen Bhawan"
+                    className="absolute inset-0 h-full w-full"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </Section>
@@ -74,7 +91,7 @@ export default function AboutPage() {
           {values.map((v, i) => (
             <Reveal key={v.title} delay={i * 0.06}>
               <div className="h-full rounded-3xl border border-line bg-white p-7 text-center shadow-soft">
-                <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600">
+                <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gold-50 text-gold-600">
                   <v.icon className="h-7 w-7" />
                 </span>
                 <h3 className="mt-5 font-head text-lg font-bold text-ink">
@@ -98,7 +115,7 @@ export default function AboutPage() {
           {founderTrustees.map((name, i) => (
             <Reveal key={name} delay={(i % 3) * 0.05}>
               <div className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-500 text-sm font-bold text-white">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-gradient text-sm font-bold text-[#3d2600]">
                   {i + 1}
                 </span>
                 <span className="text-sm font-medium text-ink">{name}</span>
@@ -120,7 +137,7 @@ export default function AboutPage() {
             {/* Desktop table */}
             <table className="hidden w-full text-left sm:table">
               <thead>
-                <tr className="bg-surface2 text-xs uppercase tracking-wider text-muted">
+                <tr className="bg-gold-gradient text-xs uppercase tracking-wider text-[#3d2600]">
                   <th className="px-6 py-4 font-semibold">#</th>
                   <th className="px-6 py-4 font-semibold">Name</th>
                   <th className="px-6 py-4 font-semibold">Post</th>
@@ -129,8 +146,8 @@ export default function AboutPage() {
               </thead>
               <tbody className="divide-y divide-line">
                 {pastChairmen.map((c, i) => (
-                  <tr key={i} className="text-sm hover:bg-surface">
-                    <td className="px-6 py-4 font-semibold text-brand-600">{i + 1}</td>
+                  <tr key={i} className="text-sm transition-colors hover:bg-gold-50">
+                    <td className="px-6 py-4 font-semibold text-gold-700">{i + 1}</td>
                     <td className="px-6 py-4 font-medium text-ink">{c.name}</td>
                     <td className="px-6 py-4 text-muted">{c.post}</td>
                     <td className="px-6 py-4 text-muted">{c.year}</td>
@@ -143,7 +160,7 @@ export default function AboutPage() {
               {pastChairmen.map((c, i) => (
                 <li key={i} className="p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-brand-600">#{i + 1}</span>
+                    <span className="text-sm font-semibold text-gold-700">#{i + 1}</span>
                     <span className="text-xs text-muted">{c.year}</span>
                   </div>
                   <p className="mt-1 font-medium text-ink">{c.name}</p>
