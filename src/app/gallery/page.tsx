@@ -33,10 +33,11 @@ const categories: GalleryCategory[] = [
     ],
   },
   { id: "hall-rooms", label: "Hall & Rooms", images: ["rooms.jpg"] },
-  { id: "maharaji", label: "Agrasen Maharaji", images: [] },
-  { id: "pharmacy", label: "Our Pharmacy", images: [] },
-  { id: "entrance", label: "Entrance", images: [] },
-  { id: "other", label: "Other Services", images: [] },
+  // Add filenames below to bring these categories back (empty ones are hidden):
+  // { id: "maharaji", label: "Agrasen Maharaji", images: ["maharaji-01.jpg"] },
+  // { id: "pharmacy", label: "Our Pharmacy", images: [] },
+  // { id: "entrance", label: "Entrance", images: [] },
+  // { id: "other", label: "Other Services", images: [] },
 ];
 
 export default function GalleryPage() {

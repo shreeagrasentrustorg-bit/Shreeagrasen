@@ -44,8 +44,8 @@ export default function MembershipPage() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((b, i) => (
             <Reveal key={b.title} delay={i * 0.06}>
-              <div className="h-full rounded-3xl border border-line bg-white p-7 text-center shadow-soft">
-                <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600">
+              <div className="card-premium h-full rounded-3xl border border-line bg-white p-7 text-center shadow-soft">
+                <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gold-50 text-gold-600">
                   <b.icon className="h-7 w-7" />
                 </span>
                 <h3 className="mt-5 font-head text-lg font-bold text-ink">{b.title}</h3>

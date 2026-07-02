@@ -47,8 +47,8 @@ export default function ContactPage() {
             <SectionHeading eyebrow="Contact Info" title="Reach Shree Agrasen Bhawan" />
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {info.map((item) => (
-                <div key={item.title} className="rounded-2xl border border-line bg-white p-5 shadow-soft">
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600">
+                <div key={item.title} className="card-premium group rounded-2xl border border-line bg-white p-5 shadow-soft">
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-gold-50 text-gold-600 transition-transform group-hover:scale-110">
                     <item.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-4 font-head text-sm font-bold text-ink">{item.title}</h3>

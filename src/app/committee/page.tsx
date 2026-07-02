@@ -35,7 +35,7 @@ export default function CommitteePage() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {committee.map((m, i) => (
             <Reveal key={`${m.name}-${i}`} delay={(i % 4) * 0.05}>
-              <div className="group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft transition-all hover:-translate-y-1 hover:shadow-card">
+              <div className="card-premium group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft">
                 <div className="relative aspect-[4/5] overflow-hidden bg-surface2">
                   {m.img ? (
                     <Image

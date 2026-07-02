@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, FileImage, ScrollText } from "lucide-react";
+import { ArrowRight, CalendarDays, FileImage } from "lucide-react";
 import { PageBanner } from "@/components/page-banner";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
@@ -63,23 +63,14 @@ export default function EventsPage() {
         </div>
       </Section>
 
-      {/* Invitation poster archive */}
-      <Section muted id="invitations">
-        <SectionHeading
-          eyebrow="Archive"
-          title="Event Invitations"
-          subtitle="Invitation posters from our annual celebrations and community programs."
-        />
-        {eventPosters.length === 0 ? (
-          <div className="mt-10 flex flex-col items-center justify-center rounded-3xl border border-dashed border-gold-500/40 bg-white py-16 text-center">
-            <ScrollText className="h-10 w-10 text-gold-500" />
-            <p className="mt-3 font-head font-semibold text-ink">Invitation archive coming soon</p>
-            <p className="mt-1 max-w-md text-sm text-muted">
-              Posters from past programs (Agrasen Jayanti Samaroh and more) will appear
-              here as they are added.
-            </p>
-          </div>
-        ) : (
+      {/* Invitation poster archive — only shown once posters are added */}
+      {eventPosters.length > 0 && (
+        <Section muted id="invitations">
+          <SectionHeading
+            eyebrow="Archive"
+            title="Event Invitations"
+            subtitle="Invitation posters from our annual celebrations and community programs."
+          />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {eventPosters.map((p) => (
               <Reveal key={p.image}>
@@ -109,8 +100,8 @@ export default function EventsPage() {
               </Reveal>
             ))}
           </div>
-        )}
-      </Section>
+        </Section>
+      )}
     </>
   );
 }

@@ -90,7 +90,7 @@ export default function AboutPage() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {values.map((v, i) => (
             <Reveal key={v.title} delay={i * 0.06}>
-              <div className="h-full rounded-3xl border border-line bg-white p-7 text-center shadow-soft">
+              <div className="card-premium h-full rounded-3xl border border-line bg-white p-7 text-center shadow-soft">
                 <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gold-50 text-gold-600">
                   <v.icon className="h-7 w-7" />
                 </span>
@@ -114,7 +114,7 @@ export default function AboutPage() {
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {founderTrustees.map((name, i) => (
             <Reveal key={name} delay={(i % 3) * 0.05}>
-              <div className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
+              <div className="card-premium flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-gradient text-sm font-bold text-[#3d2600]">
                   {i + 1}
                 </span>

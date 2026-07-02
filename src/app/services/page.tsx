@@ -38,9 +38,9 @@ export default function ServicesPage() {
             <Reveal key={s.slug} delay={i * 0.08}>
               <a
                 href={`#${s.slug}`}
-                className="group flex h-full flex-col rounded-3xl border border-line bg-white p-8 shadow-soft transition-all hover:-translate-y-1 hover:shadow-card"
+                className="card-premium group flex h-full flex-col rounded-3xl border border-line bg-white p-8 shadow-soft"
               >
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gold-50 text-gold-600 transition-colors group-hover:bg-gold-gradient group-hover:text-[#3d2600]">
                   <DynIcon name={s.icon} className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-head text-xl font-bold text-ink">{s.title}</h3>

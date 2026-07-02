@@ -8,18 +8,20 @@ import { cn } from "@/lib/utils";
 export type GalleryCategory = { id: string; label: string; images: string[] };
 
 export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
-  const tabs = useMemo(
-    () => [
-      { id: "all", label: "All", images: categories.flatMap((c) => c.images) },
-      ...categories,
-    ],
-    [categories]
-  );
+  const tabs = useMemo(() => {
+    // Only surface categories that actually have images — no empty tabs.
+    const withImages = categories.filter((c) => c.images.length > 0);
+    const all = { id: "all", label: "All", images: withImages.flatMap((c) => c.images) };
+    // If everything is in one bucket, the "All" tab alone is enough.
+    return withImages.length > 1 ? [all, ...withImages] : withImages;
+  }, [categories]);
 
   const [active, setActive] = useState("all");
   const [open, setOpen] = useState<number | null>(null);
 
-  const images = tabs.find((t) => t.id === active)?.images ?? [];
+  // Fall back to the first available tab if the active id isn't present.
+  const activeTab = tabs.find((t) => t.id === active) ?? tabs[0];
+  const images = activeTab?.images ?? [];
 
   const close = () => setOpen(null);
   const prev = () =>
@@ -41,7 +43,8 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
 
   return (
     <>
-      {/* Category tabs */}
+      {/* Category tabs (only when there's more than one) */}
+      {tabs.length > 1 && (
       <div className="mb-8 flex flex-wrap gap-2">
         {tabs.map((t) => (
           <button
@@ -52,7 +55,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
             }}
             className={cn(
               "rounded-full px-4 py-2 text-sm font-medium transition-all",
-              active === t.id
+              activeTab?.id === t.id
                 ? "bg-gold-gradient text-[#3d2600] shadow-[0_6px_16px_-8px_rgba(212,175,55,0.8)]"
                 : "border border-line bg-white text-body hover:border-gold-400 hover:text-gold-700"
             )}
@@ -62,6 +65,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
           </button>
         ))}
       </div>
+      )}
 
       {images.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-surface py-16 text-center">
