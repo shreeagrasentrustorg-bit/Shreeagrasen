@@ -1,30 +1,42 @@
 import type { Metadata } from "next";
 import { PageBanner } from "@/components/page-banner";
 import { Section } from "@/components/ui/section";
-import { GalleryGrid } from "@/components/gallery-grid";
+import { GalleryGrid, type GalleryCategory } from "@/components/gallery-grid";
 
 export const metadata: Metadata = {
   title: "Gallery",
   description:
-    "Photos of Shree Agrasen Bhawan — the banquet hall, rooms, events and cultural programs in Chinchwad, Pune.",
+    "Photos of Shree Agrasen Bhawan — the banquet hall, rooms, events, cultural programs, pharmacy and Maharaja Agrasen in Chinchwad, Pune.",
 };
 
-const images = [
-  "featured.jpg",
-  "gallery-item-01.jpg",
-  "gallery-item-02.jpg",
-  "gallery-item-03.jpg",
-  "gallery-item-04.jpg",
-  "gallery-item-05.jpg",
-  "gallery-item-06.jpg",
-  "gallery-item-07.jpg",
-  "gallery-item-08.jpg",
-  "gallery-item-10.jpg",
-  "gallery-item-11.jpg",
-  "gallery-item-12.jpg",
-  "gallery-item-13.jpg",
-  "gallery-item-14.jpg",
-  "rooms.jpg",
+// Categories mirror the original site. Add filenames (in /public/images/gallery)
+// to the empty categories as photos become available.
+const categories: GalleryCategory[] = [
+  {
+    id: "events",
+    label: "Events & Programs",
+    images: [
+      "featured.jpg",
+      "gallery-item-01.jpg",
+      "gallery-item-02.jpg",
+      "gallery-item-03.jpg",
+      "gallery-item-04.jpg",
+      "gallery-item-05.jpg",
+      "gallery-item-06.jpg",
+      "gallery-item-07.jpg",
+      "gallery-item-08.jpg",
+      "gallery-item-10.jpg",
+      "gallery-item-11.jpg",
+      "gallery-item-12.jpg",
+      "gallery-item-13.jpg",
+      "gallery-item-14.jpg",
+    ],
+  },
+  { id: "hall-rooms", label: "Hall & Rooms", images: ["rooms.jpg"] },
+  { id: "maharaji", label: "Agrasen Maharaji", images: [] },
+  { id: "pharmacy", label: "Our Pharmacy", images: [] },
+  { id: "entrance", label: "Entrance", images: [] },
+  { id: "other", label: "Other Services", images: [] },
 ];
 
 export default function GalleryPage() {
@@ -36,7 +48,7 @@ export default function GalleryPage() {
         subtitle="Moments from celebrations, programs and community life at Shree Agrasen Bhawan."
       />
       <Section>
-        <GalleryGrid images={images} />
+        <GalleryGrid categories={categories} />
       </Section>
     </>
   );

@@ -236,6 +236,11 @@ export const events = [
   },
 ];
 
+/* Historical event invitation posters (Agrasen Jayanti Samaroh, etc.).
+   Drop full-size images in /public/images/events and add newest-first entries. */
+export type EventPoster = { title: string; year: string; image: string };
+export const eventPosters: EventPoster[] = [];
+
 export const eventTypes = [
   "Wedding",
   "Engagement / Ring Ceremony",

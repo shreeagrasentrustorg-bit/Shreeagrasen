@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays } from "lucide-react";
+import { ArrowRight, CalendarDays, FileImage, ScrollText } from "lucide-react";
 import { PageBanner } from "@/components/page-banner";
-import { Section } from "@/components/ui/section";
+import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
-import { events } from "@/lib/site";
+import { events, eventPosters } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export default function EventsPage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-brand-600">
+                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-gold-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-gold-700">
                     <CalendarDays className="h-4 w-4" /> {formatDate(e.date)}
                   </span>
                   <h2
@@ -61,6 +61,55 @@ export default function EventsPage() {
             </Reveal>
           ))}
         </div>
+      </Section>
+
+      {/* Invitation poster archive */}
+      <Section muted id="invitations">
+        <SectionHeading
+          eyebrow="Archive"
+          title="Event Invitations"
+          subtitle="Invitation posters from our annual celebrations and community programs."
+        />
+        {eventPosters.length === 0 ? (
+          <div className="mt-10 flex flex-col items-center justify-center rounded-3xl border border-dashed border-gold-500/40 bg-white py-16 text-center">
+            <ScrollText className="h-10 w-10 text-gold-500" />
+            <p className="mt-3 font-head font-semibold text-ink">Invitation archive coming soon</p>
+            <p className="mt-1 max-w-md text-sm text-muted">
+              Posters from past programs (Agrasen Jayanti Samaroh and more) will appear
+              here as they are added.
+            </p>
+          </div>
+        ) : (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {eventPosters.map((p) => (
+              <Reveal key={p.image}>
+                <a
+                  href={`/images/events/${p.image}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card-premium group block overflow-hidden rounded-3xl border border-line bg-white shadow-soft"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <Image
+                      src={`/images/events/${p.image}`}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width:768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-2 p-4">
+                    <div>
+                      <p className="font-head text-sm font-bold text-ink">{p.title}</p>
+                      <p className="text-xs text-muted">{p.year}</p>
+                    </div>
+                    <FileImage className="h-5 w-5 shrink-0 text-gold-600" />
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        )}
       </Section>
     </>
   );
