@@ -17,7 +17,7 @@ export function BrandMark({
   return (
     <span
       className={cn(
-        "relative block shrink-0 overflow-hidden rounded-full bg-white ring-1 ring-brand-500/20",
+        "relative block shrink-0 overflow-hidden rounded-full bg-white ring-1 ring-gold-500/30 transition-shadow duration-500 group-hover:shadow-[0_0_22px_rgba(212,175,55,0.6)]",
         className
       )}
     >

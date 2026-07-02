@@ -42,7 +42,7 @@ export function Header() {
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 md:h-20">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
+        <Link href="/" className="group flex items-center gap-3" aria-label={site.name}>
           <BrandMark className="h-11 w-11 shadow-[0_6px_16px_-6px_rgba(246,147,35,0.8)]" priority />
           <span className="leading-tight">
             <span className="block font-head text-base font-bold text-ink md:text-lg">
@@ -66,16 +66,18 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "text-brand-700"
-                    : "text-body hover:text-brand-700"
+                  "group relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  active ? "text-gold-700" : "text-body hover:text-gold-700"
                 )}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-brand-500" />
-                )}
+                {/* Golden underline — full when active, grows from center on hover */}
+                <span
+                  className={cn(
+                    "absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-gold-gradient transition-transform duration-300 origin-center",
+                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  )}
+                />
               </Link>
             );
           })}

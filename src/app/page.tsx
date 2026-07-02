@@ -15,6 +15,7 @@ import {
 import { ButtonLink } from "@/components/ui/button";
 import { Section, SectionHeading, Eyebrow } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
+import { CountUp } from "@/components/count-up";
 import { DynIcon } from "@/components/icon";
 import {
   site,
@@ -39,15 +40,31 @@ export default function Home() {
     <>
       {/* ================= HERO ================= */}
       <section className="relative overflow-hidden bg-surface hero-glow">
+        {/* Floating golden particles (decorative) */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <span
+              key={i}
+              className="absolute bottom-0 rounded-full bg-gold-400"
+              style={{
+                left: `${(i * 6.3 + 4) % 100}%`,
+                width: `${4 + (i % 3) * 2}px`,
+                height: `${4 + (i % 3) * 2}px`,
+                animation: `particle-float ${11 + (i % 5) * 2.5}s linear ${(i % 7) * 1.3}s infinite`,
+                filter: "blur(0.4px)",
+              }}
+            />
+          ))}
+        </div>
         <div className="container-x relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-2">
           <div>
             <Reveal>
               <Eyebrow>Since {site.foundedYear} · Chinchwad, Pune</Eyebrow>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] text-ink md:text-6xl">
+              <h1 className="hero-heading mt-5 text-4xl font-extrabold leading-[1.08] text-ink md:text-6xl">
                 Serving the{" "}
-                <span className="text-gradient">Agrawal community</span> of PCMC
+                <span className="shimmer-text">Agrawal community</span> of PCMC
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
@@ -71,8 +88,8 @@ export default function Home() {
               <dl className="mt-12 grid max-w-lg grid-cols-2 gap-6 sm:grid-cols-4">
                 {stats.map((s) => (
                   <div key={s.label}>
-                    <dt className="font-head text-2xl font-extrabold text-brand-600 md:text-3xl">
-                      {s.value}
+                    <dt className="font-head text-2xl font-extrabold text-gold-gradient md:text-3xl">
+                      <CountUp value={s.value} />
                     </dt>
                     <dd className="mt-1 text-xs font-medium text-muted">
                       {s.label}
@@ -119,9 +136,9 @@ export default function Home() {
             <Reveal key={a.title} delay={i * 0.05}>
               <Link
                 href={a.href}
-                className="group flex h-full items-center gap-4 rounded-2xl border border-line bg-white p-5 shadow-soft transition-all hover:-translate-y-1 hover:shadow-card"
+                className="card-premium group flex h-full items-center gap-4 rounded-2xl border border-line bg-white p-5 shadow-soft"
               >
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gold-50 text-gold-600 transition-colors group-hover:bg-gold-gradient group-hover:text-[#3d2600]">
                   <a.icon className="h-6 w-6" />
                 </span>
                 <span>
@@ -198,8 +215,8 @@ export default function Home() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {services.map((s, i) => (
             <Reveal key={s.slug} delay={i * 0.08}>
-              <div className="group flex h-full flex-col rounded-3xl border border-line bg-white p-8 shadow-soft transition-all hover:-translate-y-1 hover:shadow-card">
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+              <div className="card-premium group flex h-full flex-col rounded-3xl border border-line bg-white p-8 shadow-soft">
+                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gold-50 text-gold-600 transition-colors group-hover:bg-gold-gradient group-hover:text-[#3d2600]">
                   <DynIcon name={s.icon} className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-head text-xl font-bold text-ink">
@@ -233,7 +250,7 @@ export default function Home() {
             <Reveal key={e.slug} delay={i * 0.08}>
               <Link
                 href={`/events/${e.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-soft transition-all hover:-translate-y-1 hover:shadow-card"
+                className="card-premium group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-soft"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -245,7 +262,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-brand-600">
+                  <span className="inline-flex w-fit rounded-full bg-gold-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-gold-700">
                     {formatDate(e.date)}
                   </span>
                   <h3
@@ -276,7 +293,7 @@ export default function Home() {
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-6">
           {galleryImages.slice(0, 6).map((img, i) => (
             <Reveal key={img} delay={i * 0.04}>
-              <div className="group relative aspect-square overflow-hidden rounded-2xl shadow-soft">
+              <div className="group relative aspect-square overflow-hidden rounded-2xl shadow-soft ring-2 ring-transparent transition-all hover:ring-gold-400">
                 <Image
                   src={`/images/gallery/${img}`}
                   alt="Shree Agrasen Trust event"
@@ -292,7 +309,7 @@ export default function Home() {
 
       {/* ================= COMMITTEE HIGHLIGHT ================= */}
       <Section>
-        <div className="grid items-center gap-10 rounded-[2rem] bg-ink px-8 py-12 text-white md:grid-cols-2 md:px-14">
+        <div className="ambient-gold grid items-center gap-10 rounded-[2rem] bg-maroon px-8 py-12 text-white md:grid-cols-2 md:px-14">
           <div>
             <Eyebrow>Leadership</Eyebrow>
             <h2 className="mt-4 font-head text-3xl font-bold text-white md:text-4xl">
@@ -306,8 +323,8 @@ export default function Home() {
               Meet the committee <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </div>
-          <div className="flex items-center gap-5 rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
-            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl">
+          <div className="flex items-center gap-5 rounded-3xl bg-white/5 p-6 ring-1 ring-gold-400/20">
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl ring-2 ring-gold-400/70">
               <Image
                 src={`/images/committee/${chairman.img}`}
                 alt={chairman.name}
@@ -317,24 +334,24 @@ export default function Home() {
               />
             </div>
             <div>
-              <Quote className="h-6 w-6 text-brand-400" />
+              <Quote className="h-6 w-6 text-gold-400" />
               <p className="mt-2 font-head text-lg font-bold text-white">
                 {chairman.name}
               </p>
-              <p className="text-sm text-brand-300">{chairman.post}</p>
+              <p className="text-sm text-gold-300">{chairman.post}</p>
             </div>
           </div>
         </div>
       </Section>
 
       {/* ================= DONATE BAND ================= */}
-      <section className="relative overflow-hidden bg-brand-500">
+      <section className="bg-gold-gradient relative overflow-hidden">
         <div className="container-x relative flex flex-col items-center gap-6 py-14 text-center md:flex-row md:justify-between md:text-left">
           <div>
-            <h2 className="font-head text-2xl font-bold text-white md:text-3xl">
+            <h2 className="font-head text-2xl font-bold text-[#3d2600] md:text-3xl">
               Be a part of the seva
             </h2>
-            <p className="mt-2 max-w-xl text-white/90">
+            <p className="mt-2 max-w-xl text-[#5c3f12]">
               Your generous contribution powers our health, cultural and social
               initiatives for the community.
             </p>
