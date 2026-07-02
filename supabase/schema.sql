@@ -32,12 +32,24 @@ create table if not exists public.contact_messages (
 );
 
 -- 3) Row Level Security -------------------------------------
--- The server writes with the SERVICE ROLE key, which bypasses RLS.
--- We enable RLS and add NO public policies, so the anon key cannot
--- read/write these tables directly. (Admin reads happen in the
--- Supabase dashboard or a future authenticated admin panel.)
+-- RLS is ON. We allow ONLY inserts from the public (anon) role so the
+-- website's booking/contact forms work reliably (even if the service-role
+-- key isn't configured). No SELECT/UPDATE/DELETE policies exist, so the
+-- anon key can never read this data — admin reads use the service role.
 alter table public.bookings enable row level security;
 alter table public.contact_messages enable row level security;
+
+drop policy if exists "public insert bookings" on public.bookings;
+create policy "public insert bookings"
+  on public.bookings for insert
+  to anon, authenticated
+  with check (true);
+
+drop policy if exists "public insert contact" on public.contact_messages;
+create policy "public insert contact"
+  on public.contact_messages for insert
+  to anon, authenticated
+  with check (true);
 
 -- 4) Storage bucket for uploaded documents (Aadhaar/PAN etc.)
 -- Private bucket — files are only accessed via signed URLs from the server.

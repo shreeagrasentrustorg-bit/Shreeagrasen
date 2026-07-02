@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { insertResilient } from "@/lib/supabase";
 import { sendContactEmails } from "@/lib/email";
 
 export const runtime = "nodejs";
@@ -24,12 +24,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const supabase = getSupabaseAdmin();
-    if (supabase) {
-      const { error } = await supabase.from("contact_messages").insert({
-        name, phone, email: email || null, subject: subject || null, message,
-      });
-      if (error) console.error("Contact DB insert failed:", error.message);
+    const { error } = await insertResilient("contact_messages", {
+      name, phone, email: email || null, subject: subject || null, message,
+    });
+    if (error && error !== "Supabase is not configured.") {
+      return NextResponse.json(
+        { error: "Could not send your message. Please try again or call us.", detail: error },
+        { status: 500 }
+      );
     }
 
     try {

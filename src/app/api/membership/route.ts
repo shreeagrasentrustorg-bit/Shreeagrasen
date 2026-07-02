@@ -74,12 +74,18 @@ export async function POST(req: Request) {
       status: "pending",
     };
 
-    // Insert via service role (trusted user_id from verified session).
-    const writer = admin ?? supabase;
-    const { error } = await writer.from("membership_applications").insert(row);
-    if (error) {
-      console.error("Membership insert failed:", error.message);
-      return NextResponse.json({ error: "Could not submit. Please try again." }, { status: 500 });
+    // Insert via the authenticated session (RLS policy: member inserts own row).
+    // Fall back to service role if available.
+    let insertErr = (await supabase.from("membership_applications").insert(row)).error;
+    if (insertErr && admin) {
+      insertErr = (await admin.from("membership_applications").insert(row)).error;
+    }
+    if (insertErr) {
+      console.error("Membership insert failed:", insertErr.message);
+      return NextResponse.json(
+        { error: "Could not submit. Please try again.", detail: insertErr.message },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });

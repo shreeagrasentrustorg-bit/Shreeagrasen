@@ -13,6 +13,7 @@ export function BookingForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [error, setError] = useState("");
   const [fileName, setFileName] = useState("");
+  const [eventType, setEventType] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,6 +30,7 @@ export function BookingForm() {
       setStatus("ok");
       form.reset();
       setFileName("");
+      setEventType("");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -78,10 +80,25 @@ export function BookingForm() {
         </div>
         <div>
           <label className={label} htmlFor="event_type">Event type *</label>
-          <select id="event_type" name="event_type" required className={field} defaultValue="">
+          <select
+            id="event_type"
+            name="event_type"
+            required
+            className={field}
+            value={eventType}
+            onChange={(e) => setEventType(e.target.value)}
+          >
             <option value="" disabled>Select…</option>
             {eventTypes.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
+          {eventType === "Other" && (
+            <input
+              name="event_type_other"
+              required
+              className={`${field} mt-2`}
+              placeholder="Please specify your event type"
+            />
+          )}
         </div>
         <div>
           <label className={label} htmlFor="venue">Venue *</label>
