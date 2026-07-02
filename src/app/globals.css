@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Shree Agrasen Trust — Design System (light theme)
+   Brand: saffron (heritage) + emerald accent + warm neutrals
+   ============================================================ */
+
+@theme {
+  /* Brand — saffron */
+  --color-brand-50:  #fff8ed;
+  --color-brand-100: #ffefd3;
+  --color-brand-200: #ffdba5;
+  --color-brand-300: #ffc06d;
+  --color-brand-400: #ff9d33;
+  --color-brand-500: #f69323;  /* heritage brand color */
+  --color-brand-600: #e07c0c;
+  --color-brand-700: #b95f0b;
+  --color-brand-800: #934b10;
+  --color-brand-900: #773e11;
+
+  /* Accent — emerald (complementary, cultural) */
+  --color-accent-50:  #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-500: #10b981;
+  --color-accent-600: #0f766e;
+  --color-accent-700: #115e59;
+
+  /* Warm neutral (stone-ish) */
+  --color-ink:      #1c1917;
+  --color-body:     #44403c;
+  --color-muted:    #78716c;
+  --color-line:     #ece7e1;
+  --color-surface:  #faf7f2;  /* cream */
+  --color-surface2: #f4efe8;
+  --color-card:     #ffffff;
+
+  /* Semantic */
+  --color-success: #16a34a;
+  --color-danger:  #dc2626;
+  --color-warning: #d97706;
+  --color-info:    #2563eb;
+
+  /* Fonts (mapped from next/font CSS vars) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-head: var(--font-poppins), var(--font-inter), sans-serif;
+  --font-deva: var(--font-noto-deva), var(--font-inter), sans-serif;
+
+  /* Radius */
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadow */
+  --shadow-soft: 0 1px 3px rgb(28 25 23 / 0.06), 0 1px 2px rgb(28 25 23 / 0.04);
+  --shadow-card: 0 10px 30px -12px rgb(28 25 23 / 0.15);
+  --shadow-lift: 0 20px 45px -18px rgb(120 63 17 / 0.28);
+}
+
+/* Force light theme, smooth scroll */
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-head);
+  color: var(--color-ink);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+::selection { background: var(--color-brand-500); color: #fff; }
+
+.font-deva { font-family: var(--font-deva); }
+
+/* Section container */
+.container-x { width: 100%; margin-inline: auto; padding-inline: 1.25rem; max-width: 80rem; }
+@media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
+
+a { text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Gradient accent text */
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-brand-600), var(--color-brand-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Decorative radial glow */
+.hero-glow {
+  background:
+    radial-gradient(60% 60% at 80% 10%, rgba(246,147,35,0.16), transparent 60%),
+    radial-gradient(45% 45% at 10% 90%, rgba(15,118,110,0.10), transparent 60%);
+}
+
+* { scrollbar-width: thin; scrollbar-color: var(--color-brand-300) transparent; }
