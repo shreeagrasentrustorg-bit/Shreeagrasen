@@ -236,7 +236,7 @@ export const committee: CommitteeMember[] = [
   { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", phone: "9822950719", img: "dharmender-agarwal.jpg" },
   { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", phone: "9822552966", img: "anand-agarwal.jpg" },
   { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", phone: "9822654487", img: "sandeep-gupta.jpg" },
-  { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", phone: "9860767943", img: null },
+  { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", phone: "9860767943", img: "sagar-agarwal.jpg" },
   { name: "Shri Jagdishprasad Preetamchand Siinghal", post: "Margdarshak", phone: "9822651310", img: null },
 ];
 
