@@ -28,7 +28,7 @@ export default function EventsPage() {
             <Reveal key={e.slug} delay={(i % 3) * 0.08}>
               <Link
                 href={`/events/${e.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-soft transition-all hover:-translate-y-1 hover:shadow-card"
+                className="card-premium group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-soft ring-1 ring-transparent hover:ring-gold-400/60"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -44,7 +44,7 @@ export default function EventsPage() {
                     <CalendarDays className="h-4 w-4" /> {formatDate(e.date)}
                   </span>
                   <h2
-                    className={`mt-3 font-head text-lg font-bold text-ink ${e.lang === "mr" ? "font-deva" : ""}`}
+                    className={`mt-3 font-head text-lg font-bold text-ink transition-colors group-hover:text-gold-700 ${e.lang === "mr" ? "font-deva" : ""}`}
                   >
                     {e.title}
                   </h2>

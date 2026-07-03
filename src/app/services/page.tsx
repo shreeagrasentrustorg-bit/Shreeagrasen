@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CheckCircle2, ArrowRight, Wind, Droplets, Sparkles, BedDouble } from "lucide-react";
+import { CheckCircle2, ArrowRight, Wind, Droplets, Sparkles, BedDouble, Users, HeartHandshake } from "lucide-react";
 import { PageBanner } from "@/components/page-banner";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { DynIcon } from "@/components/icon";
-import { services, culturalPrograms, bookingTerms } from "@/lib/site";
+import { services, culturalPrograms, bookingTerms, memberServices, publicServices } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -51,6 +51,54 @@ export default function ServicesPage() {
         </div>
       </Section>
 
+      {/* What we do — Member & Public services */}
+      <Section muted id="what-we-do">
+        <SectionHeading
+          center
+          eyebrow="What We Do"
+          title="Member & Public Services"
+          subtitle="We are mainly into two service tracks — dedicated benefits for our members, and compassionate service for the public at large."
+        />
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          <Reveal>
+            <div className="card-premium ambient-gold h-full rounded-3xl border border-gold-500/30 bg-white p-8 shadow-soft">
+              <div className="flex items-center gap-3">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gold-gradient text-[#3d2600] shadow-gold">
+                  <Users className="h-6 w-6" />
+                </span>
+                <h3 className="font-head text-xl font-bold text-ink">Member Services</h3>
+              </div>
+              <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+                {memberServices.map((s) => (
+                  <li key={s} className="flex items-start gap-2.5 rounded-xl px-2 py-1.5 text-sm text-body transition-colors hover:bg-gold-50">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="card-premium h-full rounded-3xl border border-line bg-white p-8 shadow-soft">
+              <div className="flex items-center gap-3">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-600/10 text-accent-700">
+                  <HeartHandshake className="h-6 w-6" />
+                </span>
+                <h3 className="font-head text-xl font-bold text-ink">Services for the Public at Large</h3>
+              </div>
+              <ul className="mt-6 grid gap-2.5">
+                {publicServices.map((s) => (
+                  <li key={s} className="flex items-start gap-2.5 rounded-xl px-2 py-1.5 text-sm text-body transition-colors hover:bg-accent-600/5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* Hall booking */}
       <Section muted id="hall-booking">
         <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -76,7 +124,7 @@ export default function ServicesPage() {
             </p>
             <div className="mt-6 grid grid-cols-2 gap-4">
               {hallAmenities.map((a) => (
-                <div key={a.label} className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-soft">
+                <div key={a.label} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft transition-all hover:-translate-y-0.5 hover:border-gold-400/60 hover:shadow-gold">
                   <a.icon className="h-5 w-5 shrink-0 text-brand-600" />
                   <span className="text-sm font-medium text-ink">{a.label}</span>
                 </div>

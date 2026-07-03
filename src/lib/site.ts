@@ -135,6 +135,35 @@ export const bookingTerms = [
   "Full payment before 8 days of the program or event",
 ];
 
+/* The trust runs two service tracks — for members and for the public at large. */
+export const memberServices = [
+  "Cultural Programs",
+  "Festival Celebrations",
+  "Identity Cards",
+  "Medical Facilities",
+  "Scholarships",
+  "Bhawan Facilities for Family Functions",
+  "Entertainment Programs",
+  "Career Guidance for Students",
+  "Mahila Mandal Activities",
+  "Agarwal Youth Wing",
+  "Senior Citizens Activities",
+  "Match-Making",
+];
+
+export const publicServices = [
+  "Concessional / Free Medical Consultation & Dispensary",
+  "Periodical Preventive Health Check-up Camps",
+  "Free Cataract Surgery",
+  "Palki / Warkari Medical Seva at Bhawan / Velhe",
+  "Bhawan Facility at Nominal Rates for family functions",
+  "Career Guidance Programs",
+  "Food Services for the Needy",
+  "Tree Plantations",
+  "Vaccinations",
+  "Meritorious Students Felicitations",
+];
+
 export const stats = [
   { value: "1981", label: "Serving since" },
   { value: "40+", label: "Years of service" },
@@ -194,19 +223,19 @@ export type CommitteeMember = {
 };
 
 export const committee: CommitteeMember[] = [
-  { name: "Shri Sunil Rameshwar Agarwal", post: "Chairman", phone: "9850043850", img: "member-01.jpg" },
-  { name: "Shri Subhash Devichand Bansal", post: "Karyadhyaksh", phone: "9960074929", img: "member-02.jpg" },
-  { name: "Shri Satpal Bhagatram Mittal", post: "Secretary", phone: "9822032660", img: "member-03.jpg" },
-  { name: "Shri Sunil Jaikumar Agarwal", post: "Co-Secretary", phone: "9850100099", img: "member-04.jpg" },
-  { name: "Shri Ashok Premchand Bansal", post: "Treasurer", phone: "9822244043", img: "member-05.jpg" },
-  { name: "Shri Vinod Balkishan Mittal", post: "Bhawan Adhikari", phone: "9822097543", img: "member-06.jpg" },
-  { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Joint Bhawan Adhikari", phone: "9822001645", img: "member-07.jpg" },
-  { name: "CA. Shri Krishanlal Jialal Bansal", post: "Chairman, Medical & Nav Nirman Committee", phone: "9371010904", img: "member-08.jpg" },
-  { name: "Shri Vinod Shivnarayan Bansal", post: "Member, Medical & Nav Nirman Committee", phone: "9371092910", img: "member-09.jpg" },
-  { name: "Shri Gaurav Bhagwandas Agarwal", post: "Member, Cultural Committee", phone: "9823096363", img: "member-10.jpg" },
-  { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", phone: "9822950719", img: "member-11.jpg" },
-  { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", phone: "9822552966", img: "member-12.jpg" },
-  { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", phone: "9822654487", img: "member-13.jpg" },
+  { name: "Shri Sunil Rameshwar Agarwal", post: "Chairman", phone: "9850043850", img: "sunil-rameshwar-agarwal.jpg" },
+  { name: "Shri Subhash Devichand Bansal", post: "Karyadhyaksh", phone: "9960074929", img: null },
+  { name: "Shri Satpal Bhagatram Mittal", post: "Secretary", phone: "9822032660", img: "satpal-mittal.jpg" },
+  { name: "Shri Sunil Jaikumar Agarwal", post: "Co-Secretary", phone: "9850100099", img: "sunil-jaikumar-agarwal.jpg" },
+  { name: "Shri Ashok Premchand Bansal", post: "Treasurer", phone: "9822244043", img: "ashok-bansal.jpg" },
+  { name: "Shri Vinod Balkishan Mittal", post: "Bhawan Adhikari", phone: "9822097543", img: "vinod-mittal.jpg" },
+  { name: "Shri Joginder Jaibhagwan Mittal", post: "Bhawan Adhikari", phone: "9822001645", img: "joginder-mittal.jpg" },
+  { name: "CA. Shri Krishanlal Jialal Bansal", post: "Chairman, Medical & Nav Nirman Committee", phone: "9371010904", img: "krishanlal-bansal.jpg" },
+  { name: "Shri Vinod Shivnarayan Bansal", post: "Member, Medical & Nav Nirman Committee", phone: "9371092910", img: "vinod-shivnarayan-bansal.jpg" },
+  { name: "Shri Gaurav Bhagwandas Agarwal", post: "Member, Cultural Committee", phone: "9823096363", img: "gaurav-agarwal.jpg" },
+  { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", phone: "9822950719", img: "dharmender-agarwal.jpg" },
+  { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", phone: "9822552966", img: "anand-agarwal.jpg" },
+  { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", phone: "9822654487", img: "sandeep-gupta.jpg" },
   { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", phone: "9860767943", img: null },
   { name: "Shri Jagdishprasad Preetamchand Siinghal", post: "Margdarshak", phone: "9822651310", img: null },
 ];

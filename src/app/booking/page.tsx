@@ -41,7 +41,7 @@ export default function BookingPage() {
             </p>
             <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {perks.map((p) => (
-                <li key={p.label} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
+                <li key={p.label} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft transition-all hover:-translate-y-0.5 hover:border-gold-400/60 hover:shadow-gold">
                   <p.icon className="h-5 w-5 shrink-0 text-brand-600" />
                   <span className="text-sm font-medium text-ink">{p.label}</span>
                 </li>

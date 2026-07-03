@@ -36,26 +36,30 @@ export default function CommitteePage() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {committee.map((m, i) => (
             <Reveal key={`${m.name}-${i}`} delay={(i % 4) * 0.05}>
-              <div className="card-premium group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft">
+              <div className="card-premium group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft ring-1 ring-transparent transition-all hover:ring-gold-400/60">
                 <div className="relative aspect-[4/5] overflow-hidden bg-surface2">
                   {m.img ? (
-                    <Image
-                      src={`/images/committee/${m.img}`}
-                      alt={m.name}
-                      fill
-                      sizes="(max-width:640px) 100vw, (max-width:1280px) 33vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    <>
+                      <Image
+                        src={`/images/committee/${m.img}`}
+                        alt={m.name}
+                        fill
+                        sizes="(max-width:640px) 100vw, (max-width:1280px) 33vw, 25vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      {/* golden sheen on hover */}
+                      <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#3d2600]/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    </>
                   ) : (
-                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-50 to-accent-600/10">
-                      <span className="font-head text-4xl font-extrabold text-brand-600">
+                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-gold-50 to-accent-600/10">
+                      <span className="font-head text-4xl font-extrabold text-gold-gradient">
                         {initials(m.name)}
                       </span>
                     </div>
                   )}
                 </div>
                 <div className="p-5">
-                  <h3 className="font-head text-base font-bold leading-snug text-ink">
+                  <h3 className="font-head text-base font-bold leading-snug text-ink transition-colors group-hover:text-gold-700">
                     {m.name}
                   </h3>
                   <p className="mt-1 text-sm font-medium text-brand-600">
@@ -85,8 +89,8 @@ export default function CommitteePage() {
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {panchCommittee.map((name, i) => (
             <Reveal key={name} delay={(i % 3) * 0.05}>
-              <div className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-600/10 text-sm font-bold text-accent-700">
+              <div className="card-premium flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-soft">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-gradient text-sm font-bold text-[#3d2600] shadow-gold">
                   {i + 1}
                 </span>
                 <span className="text-sm font-medium text-ink">{name}</span>
