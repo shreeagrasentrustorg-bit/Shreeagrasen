@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Phone } from "lucide-react";
 import { PageBanner } from "@/components/page-banner";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
@@ -60,6 +61,14 @@ export default function CommitteePage() {
                   <p className="mt-1 text-sm font-medium text-brand-600">
                     {m.post}
                   </p>
+                  {m.phone && (
+                    <a
+                      href={`tel:+91${m.phone}`}
+                      className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-brand-700"
+                    >
+                      <Phone className="h-3.5 w-3.5" /> +91 {m.phone}
+                    </a>
+                  )}
                 </div>
               </div>
             </Reveal>

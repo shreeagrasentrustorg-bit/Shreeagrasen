@@ -6,7 +6,7 @@ import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { DynIcon } from "@/components/icon";
-import { services, culturalPrograms } from "@/lib/site";
+import { services, culturalPrograms, bookingTerms } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -82,6 +82,19 @@ export default function ServicesPage() {
                 </div>
               ))}
             </div>
+            {/* Booking terms / description */}
+            <div className="mt-8 rounded-2xl border border-line bg-white p-5 shadow-soft">
+              <h3 className="font-head text-sm font-bold text-ink">Description &amp; booking terms</h3>
+              <ul className="mt-4 space-y-2.5">
+                {bookingTerms.map((t) => (
+                  <li key={t} className="flex items-start gap-2.5 text-sm text-body">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <ButtonLink href="/booking" size="lg" className="mt-8">
               Enquire & Book <ArrowRight className="h-5 w-5" />
             </ButtonLink>

@@ -28,6 +28,8 @@ type Booking = {
   id: string; created_at: string; name: string; phone: string; email: string;
   event_type: string; venue: string; event_date: string; alt_date: string | null;
   guests: number | null; document_path: string | null; status: string;
+  address: string | null; property_type: string | null; member_type: string | null;
+  check_in: string | null; check_out: string | null; rooms_required: number | null;
 };
 type Member = {
   id: string; created_at: string; full_name: string; father_name: string | null;
@@ -110,26 +112,29 @@ export default async function AdminPage() {
           <CalendarCheck className="h-5 w-5 text-brand-600" /> Hall Bookings
         </h2>
         <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white shadow-soft">
-          <table className="w-full min-w-[900px]">
+          <table className="w-full min-w-[1150px]">
             <thead className="bg-surface2">
               <tr>
-                {["Date", "Name", "Contact", "Event", "Venue", "Event date", "Guests", "Doc", "Status"].map((h) => (
+                {["Date", "Name", "Contact", "Event", "Property / Member", "Venue", "Event date", "Lodging", "Rooms", "Guests", "Doc", "Status"].map((h) => (
                   <th key={h} className={th}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
               {(bookings ?? []).length === 0 && (
-                <tr><td className={td} colSpan={9}>No bookings yet.</td></tr>
+                <tr><td className={td} colSpan={12}>No bookings yet.</td></tr>
               )}
               {(bookings ?? []).map((b, i) => (
                 <tr key={b.id}>
                   <td className={td}>{formatDate(b.created_at)}</td>
-                  <td className={td}><span className="font-medium text-ink">{b.name}</span></td>
+                  <td className={td}><span className="font-medium text-ink">{b.name}</span>{b.address ? <><br /><span className="text-muted">{b.address}</span></> : null}</td>
                   <td className={td}>{b.phone}<br /><span className="text-muted">{b.email}</span></td>
                   <td className={td}>{b.event_type}</td>
+                  <td className={td}>{b.property_type ?? "—"}{b.member_type ? <><br /><span className="text-muted">{b.member_type}</span></> : null}</td>
                   <td className={td}>{b.venue}</td>
                   <td className={td}>{b.event_date}{b.alt_date ? <><br /><span className="text-muted">alt: {b.alt_date}</span></> : null}</td>
+                  <td className={td}>{b.check_in ? <>{b.check_in}{b.check_out ? <><br /><span className="text-muted">→ {b.check_out}</span></> : null}</> : "—"}</td>
+                  <td className={td}>{b.rooms_required ?? "—"}</td>
                   <td className={td}>{b.guests ?? "—"}</td>
                   <td className={td}>
                     {bookingDocs[i] ? (

@@ -35,6 +35,8 @@ export type BookingPayload = {
   event_type: string; venue: string; event_date: string;
   alt_date?: string; guests?: string; message?: string;
   documentUrl?: string;
+  address?: string; property_type?: string; member_type?: string;
+  check_in?: string; check_out?: string; rooms_required?: string;
 };
 
 export async function sendBookingEmails(b: BookingPayload) {
@@ -44,10 +46,16 @@ export async function sendBookingEmails(b: BookingPayload) {
     { label: "Name", value: b.name },
     { label: "Phone", value: b.phone },
     { label: "Email", value: b.email },
+    { label: "Address", value: b.address },
+    { label: "Member type", value: b.member_type },
+    { label: "Property type", value: b.property_type },
     { label: "Event type", value: b.event_type },
     { label: "Venue", value: b.venue },
     { label: "Preferred date", value: b.event_date },
     { label: "Alternate date", value: b.alt_date },
+    { label: "Check-in", value: b.check_in },
+    { label: "Check-out", value: b.check_out },
+    { label: "Rooms required", value: b.rooms_required },
     { label: "Guests", value: b.guests },
     { label: "Message", value: b.message },
   ]);

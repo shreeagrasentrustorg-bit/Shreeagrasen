@@ -9,12 +9,16 @@ export const metadata: Metadata = {
     "Photos of Shree Agrasen Bhawan — the banquet hall, rooms, events, cultural programs, pharmacy and Maharaja Agrasen in Chinchwad, Pune.",
 };
 
-// Categories mirror the original site. Add filenames (in /public/images/gallery)
-// to the empty categories as photos become available.
+// Categories mirror the original site's gallery filter:
+//   All Images | Hall | Our Pharmacy | Entrance | Agrasen Maharaji | Other Services
+// The "All Images" tab is generated automatically by GalleryGrid from every
+// category that has photos. Move each filename into the category it belongs to
+// as photos are identified; empty categories are hidden until they have images.
 const categories: GalleryCategory[] = [
+  { id: "hall", label: "Hall", images: ["rooms.jpg"] },
   {
-    id: "events",
-    label: "Events & Programs",
+    id: "other",
+    label: "Other Services",
     images: [
       "featured.jpg",
       "gallery-item-01.jpg",
@@ -32,12 +36,10 @@ const categories: GalleryCategory[] = [
       "gallery-item-14.jpg",
     ],
   },
-  { id: "hall-rooms", label: "Hall & Rooms", images: ["rooms.jpg"] },
-  // Add filenames below to bring these categories back (empty ones are hidden):
-  // { id: "maharaji", label: "Agrasen Maharaji", images: ["maharaji-01.jpg"] },
-  // { id: "pharmacy", label: "Our Pharmacy", images: [] },
-  // { id: "entrance", label: "Entrance", images: [] },
-  // { id: "other", label: "Other Services", images: [] },
+  // Empty categories stay hidden until photos are added to them:
+  { id: "pharmacy", label: "Our Pharmacy", images: [] },
+  { id: "entrance", label: "Entrance", images: [] },
+  { id: "maharaji", label: "Agrasen Maharaji", images: [] },
 ];
 
 export default function GalleryPage() {

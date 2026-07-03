@@ -64,9 +64,11 @@ export default async function EventDetail({
             />
           </div>
 
-          <p className={`mt-8 text-lg leading-relaxed text-body ${deva}`}>
-            {event.body}
-          </p>
+          <div className={`mt-8 space-y-4 text-lg leading-relaxed text-body ${deva}`}>
+            {event.body.split("\n\n").map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
 
           <div className="mt-10 rounded-3xl bg-surface p-6 text-center">
             <p className="text-body">Want to be part of our next event?</p>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CalendarCheck, CheckCircle2, Loader2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { eventTypes, venues } from "@/lib/site";
+import { eventTypes, venues, propertyTypes, memberTypes } from "@/lib/site";
 
 const field =
   "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30";
@@ -73,6 +73,36 @@ export function BookingForm() {
         <div>
           <label className={label} htmlFor="email">Email *</label>
           <input id="email" name="email" type="email" required className={field} placeholder="you@example.com" />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={label} htmlFor="address">Address</label>
+          <input id="address" name="address" className={field} placeholder="Your address" />
+        </div>
+        <div>
+          <label className={label} htmlFor="property_type">Property type *</label>
+          <select id="property_type" name="property_type" required className={field} defaultValue="">
+            <option value="" disabled>Select…</option>
+            {propertyTypes.map((p) => <option key={p} value={p}>{p}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className={label} htmlFor="member_type">Member type *</label>
+          <select id="member_type" name="member_type" required className={field} defaultValue="">
+            <option value="" disabled>Select…</option>
+            {memberTypes.map((m) => <option key={m} value={m}>{m}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className={label} htmlFor="check_in">Check-in date</label>
+          <input id="check_in" name="check_in" type="date" className={field} />
+        </div>
+        <div>
+          <label className={label} htmlFor="check_out">Check-out date</label>
+          <input id="check_out" name="check_out" type="date" className={field} />
+        </div>
+        <div>
+          <label className={label} htmlFor="rooms_required">No. of rooms required</label>
+          <input id="rooms_required" name="rooms_required" type="number" min={0} defaultValue={1} className={field} placeholder="e.g. 2" />
         </div>
         <div>
           <label className={label} htmlFor="guests">Expected guests</label>

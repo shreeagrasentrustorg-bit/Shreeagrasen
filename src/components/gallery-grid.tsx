@@ -11,7 +11,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
   const tabs = useMemo(() => {
     // Only surface categories that actually have images — no empty tabs.
     const withImages = categories.filter((c) => c.images.length > 0);
-    const all = { id: "all", label: "All", images: withImages.flatMap((c) => c.images) };
+    const all = { id: "all", label: "All Images", images: withImages.flatMap((c) => c.images) };
     // If everything is in one bucket, the "All" tab alone is enough.
     return withImages.length > 1 ? [all, ...withImages] : withImages;
   }, [categories]);

@@ -16,6 +16,12 @@ create table if not exists public.bookings (
   alt_date     date,
   guests       integer,
   message      text,
+  address       text,
+  property_type text,
+  member_type   text,
+  check_in      date,
+  check_out     date,
+  rooms_required integer,
   document_path text,
   status       text not null default 'new'   -- new | confirmed | cancelled
 );

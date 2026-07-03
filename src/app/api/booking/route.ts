@@ -25,6 +25,12 @@ export async function POST(req: Request) {
     const alt_date = get("alt_date");
     const guests = get("guests");
     const message = get("message");
+    const address = get("address");
+    const property_type = get("property_type");
+    const member_type = get("member_type");
+    const check_in = get("check_in");
+    const check_out = get("check_out");
+    const rooms_required = get("rooms_required");
 
     // "Other" → use the custom text the user typed
     if (event_type === "Other" && event_type_other) event_type = event_type_other;
@@ -76,6 +82,12 @@ export async function POST(req: Request) {
       event_date, alt_date: alt_date || null,
       guests: guests ? Number(guests) : null,
       message: message || null,
+      address: address || null,
+      property_type: property_type || null,
+      member_type: member_type || null,
+      check_in: check_in || null,
+      check_out: check_out || null,
+      rooms_required: rooms_required ? Number(rooms_required) : null,
       document_path: documentRef || null,
       status: "new",
     });
@@ -98,6 +110,7 @@ export async function POST(req: Request) {
       await sendBookingEmails({
         name, phone, email, event_type, venue, event_date,
         alt_date, guests, message, documentUrl,
+        address, property_type, member_type, check_in, check_out, rooms_required,
       });
     } catch (e) {
       console.error("Email send failed:", e);

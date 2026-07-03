@@ -118,6 +118,21 @@ export const culturalPrograms = [
   "Diwali Milan",
   "Students Motivation & Felicitation",
   "Agrasen Samaj Mahila Programs",
+  "Publishing Books on Hindu Festivals & Culture",
+];
+
+/* Hall & room booking terms / description (from the original booking page). */
+export const bookingTerms = [
+  "130 × 29 Sq. Ft. decorated sound-proof A.C. hall",
+  "Only rooms will not be given",
+  "For social organisations, hall can be made available if programs are done jointly",
+  "No alcohol and no non-veg allowed",
+  "Lodging electricity bill ₹1000/- per day",
+  "Cleaning ₹3000/- per booking charges",
+  "Payment 50% advance by cheque or online booking",
+  "No cancellation charges",
+  "Booking can be done 90 days in advance",
+  "Full payment before 8 days of the program or event",
 ];
 
 export const stats = [
@@ -167,28 +182,33 @@ export const panchCommittee = [
 ];
 
 /* Present elected committee 2022–2025.
-   NOTE: phone numbers omitted here for privacy (they were public on the old
-   site). Add back a single office contact instead if the trust approves. */
-export type CommitteeMember = { name: string; post: string; img: string | null };
+   Full roster (15 members) with posts and public office contact numbers,
+   exactly as published on the official invitation / trust roster.
+   NOTE: `img` filenames map a card to a photo in /public/images/committee.
+   Members 14 & 15 have no photo yet (img: null → initials avatar). */
+export type CommitteeMember = {
+  name: string;
+  post: string;
+  phone: string | null;
+  img: string | null;
+};
 
 export const committee: CommitteeMember[] = [
-  { name: "Shri Sunil Rameshwar Agarwal", post: "Chairman", img: "member-01.jpg" },
-  { name: "Shri Subhash Devichand Bansal", post: "Karyadhyaksh", img: "member-02.jpg" },
-  { name: "Shri Satpal Bhagatram Mittal", post: "Secretary", img: "member-03.jpg" },
-  { name: "Shri Sunil Jaikumar Agarwal", post: "Co-Secretary", img: "member-04.jpg" },
-  { name: "Shri Ashok Premchand Bansal", post: "Treasurer", img: "member-05.jpg" },
-  { name: "Shri Vinod Balkishan Mittal", post: "Bhawan Adhikari", img: "member-06.jpg" },
-  { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Joint Bhawan Adhikari", img: "member-07.jpg" },
-  { name: "CA. Shri Krishanlal Jialal Bansal", post: "Chairman, Medical & Nav Nirman Committee", img: "member-08.jpg" },
-  { name: "Shri Vinod Shivnarayan Bansal", post: "Member, Medical & Nav Nirman Committee", img: "member-09.jpg" },
-  { name: "Shri Gaurav Bhagwandas Agarwal", post: "Member, Cultural Committee", img: "member-10.jpg" },
-  { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", img: "member-11.jpg" },
-  { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", img: "member-12.jpg" },
-  { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", img: "member-13.jpg" },
-  // Members without a dedicated photo are omitted so no card shows a blank/initials
-  // avatar. Add them back here with an `img` once photos are available:
-  //   { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", img: "member-14.jpg" },
-  //   { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Margdarshak", img: "member-15.jpg" },
+  { name: "Shri Sunil Rameshwar Agarwal", post: "Chairman", phone: "9850043850", img: "member-01.jpg" },
+  { name: "Shri Subhash Devichand Bansal", post: "Karyadhyaksh", phone: "9960074929", img: "member-02.jpg" },
+  { name: "Shri Satpal Bhagatram Mittal", post: "Secretary", phone: "9822032660", img: "member-03.jpg" },
+  { name: "Shri Sunil Jaikumar Agarwal", post: "Co-Secretary", phone: "9850100099", img: "member-04.jpg" },
+  { name: "Shri Ashok Premchand Bansal", post: "Treasurer", phone: "9822244043", img: "member-05.jpg" },
+  { name: "Shri Vinod Balkishan Mittal", post: "Bhawan Adhikari", phone: "9822097543", img: "member-06.jpg" },
+  { name: "Shri Jagdishprasad Preetamchand Singhal", post: "Joint Bhawan Adhikari", phone: "9822001645", img: "member-07.jpg" },
+  { name: "CA. Shri Krishanlal Jialal Bansal", post: "Chairman, Medical & Nav Nirman Committee", phone: "9371010904", img: "member-08.jpg" },
+  { name: "Shri Vinod Shivnarayan Bansal", post: "Member, Medical & Nav Nirman Committee", phone: "9371092910", img: "member-09.jpg" },
+  { name: "Shri Gaurav Bhagwandas Agarwal", post: "Member, Cultural Committee", phone: "9823096363", img: "member-10.jpg" },
+  { name: "Shri Dharmender Jaikumar Agarwal", post: "Member, Cultural Committee", phone: "9822950719", img: "member-11.jpg" },
+  { name: "Shri Anand Nathuram Agarwal", post: "Member, Cultural Committee", phone: "9822552966", img: "member-12.jpg" },
+  { name: "Shri Sandeep Vijendra Gupta", post: "Member, Cultural Committee", phone: "9822654487", img: "member-13.jpg" },
+  { name: "Shri Sagar Omprakash Agarwal", post: "Member, Cultural Committee", phone: "9860767943", img: null },
+  { name: "Shri Jagdishprasad Preetamchand Siinghal", post: "Margdarshak", phone: "9822651310", img: null },
 ];
 
 export const galleryImages = [
@@ -203,14 +223,17 @@ export const galleryImages = [
 export const events = [
   {
     slug: "agrasen-statue-garden",
-    title: "अग्रसेन महाराज पुतळा व उद्यान सुशोभिकरण",
+    title: "अग्रसेन महाराज पुतळा उभारणी व उद्यान सुशोभिकरण मागणीसाठी निदर्शने",
     lang: "mr" as const,
     date: "2024-01-15",
     image: "gallery-item-04.jpg",
     excerpt:
-      "भक्ती-शक्ती शेजारी अग्रसेन महाराजांचा पुतळा उभारणी व उद्यान सुशोभिकरणाच्या मागणीसाठी आगरवाल बांधवांकडून निदर्शने.",
+      "भक्ती-शक्ती शेजारी अग्रसेन महाराजांचा पुतळा उभारणी व उद्यान सुशोभिकरणाच्या मागणीसाठी आगरवाल बांधवांकडून निगडी येथील टिळक पुतळ्यासमोर काळे झेंडे दाखवून निदर्शने.",
     body:
-      "निगडी येथील भक्ती-शक्ती शेजारी असलेल्या अग्रसेन महाराजांचा पुतळा आणि उद्यान सुशोभिकरण त्वरित करावे या मागणीसाठी आगरवाल बांधवांनी निदर्शने केली. समाजातील सर्व बांधवांनी या उपक्रमात सहभागी व्हावे.",
+      "निगडी (प्रतिनिधी) — भक्ती-शक्ती शेजारी असलेल्या अग्रसेन महाराजांचा पुतळा आणि उद्यान सुशोभिकरण त्वरित करावे या मागणीसाठी आगरवाल बांधवांनी निगडी येथील टिळक पुतळ्यासमोर काळे झेंडे दाखवून निदर्शने केली.\n\n" +
+      "माजी उपमहापौर राजू मिसाळ, शैलजा मोरे, माजी नगरसेविका शर्मिला बाबर, माजी नगरसेवक अमित गावडे, सचिन चिखले यांनी उपस्थित राहून पाठिंबा दर्शविला. श्री अग्रसेन ट्रस्ट चिंचवड प्राधिकरणचे अध्यक्ष सुनील रामेश्वर अगरवाल, पुतळा समितीचे अध्यक्ष सुनील जयकुमार आगरवाल, कार्याध्यक्ष सुभाष बन्सल, सचिव सत्पाल मित्तल, सीए के. एल. बन्सल, गौरव आगरवाल, अशोक बन्सल, वेदप्रकाश गुप्ता, वेदप्रकाश मित्तल, जोगिंदर मित्तल, आशिष गर्ग, विकास गर्ग, संदीप गुप्ता, विशाल मित्तल, धर्मेंद्र आगरवाल, तरुण मित्तल, सु. अग्रवाल, अनिल दयाराम अग्रवाल, नरेश जैन, आनंद अग्रवाल, रजनी अग्रवाल, रेणू मित्तल, लता अग्रवाल, सामाजिक कार्यकर्ते सचिन काळभोर, सुधीर आगरवाल आदी उपस्थित होते.\n\n" +
+      "यावेळी ट्रस्टचे अध्यक्ष सुनील आगरवाल म्हणाले की, पालिकेने २ फेब्रुवारी २०२२ च्या बैठकीमध्ये अग्रसेन महाराजांचा पुतळ्याची उभारणी करून उद्यानाचे सुशोभीकरण करण्याचा ठराव मंजूर झालेला आहे. मात्र पालिकेने अद्याप काम सुरू केले नाही. या कामाला गती यावी यासाठी आम्ही आज पालिकेला निवेदन दिले आहे. आज आमच्या समाजाचे शहरात लाखो नागरिक आहेत. आगरवाल समाजाचे शहराच्या विकासामध्ये मोठे योगदान आहे. समाज कार्यात अग्रेसर असतो. सर्व समाजांना भूखंड दिलेत, मात्र आम्हाला अद्याप दिले नाही.\n\n" +
+      "पुतळा समिती अध्यक्ष सुनील ज. अगरवाल म्हणाले की, आम्ही वेळोवेळी कर तर भरतोच, औद्योगिक व सामाजिक क्षेत्रात पुढे असतोच. तरी पालिका या पुतळ्याकडे दुर्लक्ष करीत आहे. निगडी येथील उद्यानाचा विकास करावा आणि भव्य पुतळा उभारण्यात यावा, यासाठी पालिकेने दिरंगाई करू नये, असे मत त्यांनी मांडले.",
   },
   {
     slug: "blood-donation-camp",
@@ -253,3 +276,7 @@ export const eventTypes = [
 ];
 
 export const venues = ["Main Banquet Hall (A/C)", "Room(s) only", "Hall + Rooms"];
+
+/* Property type & member type dropdowns for the booking enquiry form. */
+export const propertyTypes = ["Banquet Hall (A/C)", "Room / Lodging", "Hall + Rooms"];
+export const memberTypes = ["Trust Member", "Non-Member", "Guest / Outsider"];
