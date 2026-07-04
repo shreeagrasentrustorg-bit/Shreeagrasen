@@ -34,7 +34,7 @@ export default function CommitteePage() {
           subtitle="Meet the office bearers and members guiding the trust today."
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {committee.map((m, i) => (
+          {committee.filter((m) => m.img).map((m, i) => (
             <Reveal key={`${m.name}-${i}`} delay={(i % 4) * 0.05}>
               <div className="card-premium group h-full overflow-hidden rounded-3xl border border-line bg-white shadow-soft ring-1 ring-transparent transition-all hover:ring-gold-400/60">
                 <div className="relative aspect-[4/5] overflow-hidden bg-surface2">
