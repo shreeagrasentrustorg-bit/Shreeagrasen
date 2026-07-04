@@ -26,8 +26,11 @@ export default async function MemberPage() {
         <PageBanner crumb="Account" title="My Account" />
         <Section>
           <div className="mx-auto max-w-md rounded-3xl border border-line bg-white p-10 text-center shadow-soft">
-            <p className="text-body">Please sign in to access your account.</p>
-            <ButtonLink href="/login" className="mt-6">Sign in</ButtonLink>
+            <p className="text-body">Sign in to access your account, or create one in seconds.</p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <ButtonLink href="/login">Sign in</ButtonLink>
+              <ButtonLink href="/register" variant="outline">Create account</ButtonLink>
+            </div>
           </div>
         </Section>
       </>

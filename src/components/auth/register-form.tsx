@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Loader2, UserPlus, CheckCircle2 } from "lucide-react";
+import { Loader2, UserPlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { AuthShell, authField, authLabel } from "./auth-shell";
@@ -10,54 +10,49 @@ import { AuthShell, authField, authLabel } from "./auth-shell";
 export function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [verify, setVerify] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    const supabase = createClient();
-    if (!supabase) {
-      setError("Registration is not configured yet. Please set Supabase env vars.");
-      return;
-    }
     setLoading(true);
     const data = new FormData(e.currentTarget);
-    const { data: res, error } = await supabase.auth.signUp({
-      email: String(data.get("email")),
-      password: String(data.get("password")),
-      options: { data: { full_name: String(data.get("full_name")) } },
+    const email = String(data.get("email")).trim().toLowerCase();
+    const password = String(data.get("password"));
+    const full_name = String(data.get("full_name")).trim();
+
+    // 1) Create the account server-side, already confirmed (no verification email).
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, full_name }),
     });
-    if (error) {
-      setError(error.message);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setError(json.error || "Could not create your account. Please try again.");
       setLoading(false);
       return;
     }
-    if (res.session) {
-      window.location.assign("/member"); // auto-confirmed
-    } else {
-      setVerify(true); // email confirmation required
-      setLoading(false);
-    }
-  }
 
-  if (verify) {
-    return (
-      <AuthShell title="Almost there!" subtitle="Confirm your email to continue." footer={<Link href="/login" className="font-semibold text-brand-700">Back to sign in</Link>}>
-        <div className="flex flex-col items-center py-4 text-center">
-          <CheckCircle2 className="h-14 w-14 text-accent-600" />
-          <p className="mt-4 text-body">
-            We&apos;ve sent a confirmation link to your email. Please verify, then
-            sign in to complete your membership application.
-          </p>
-        </div>
-      </AuthShell>
-    );
+    // 2) Sign in immediately so they can fill their details right away.
+    const supabase = createClient();
+    if (!supabase) {
+      setError("Account created, but sign-in is not configured. Please sign in manually.");
+      setLoading(false);
+      return;
+    }
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      // Account exists — send them to the login page to sign in.
+      window.location.assign("/login");
+      return;
+    }
+    window.location.assign("/member");
   }
 
   return (
     <AuthShell
       title="Create account"
-      subtitle="Register to apply for membership & track your status."
+      subtitle="Register instantly — no email verification. Then apply for membership & track your status."
       footer={<>Already have an account?{" "}<Link href="/login" className="font-semibold text-brand-700">Sign in</Link></>}
     >
       <form onSubmit={onSubmit} className="space-y-4">

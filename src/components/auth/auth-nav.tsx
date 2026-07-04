@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogIn, LogOut, LayoutDashboard, UserCircle } from "lucide-react";
+import { LogIn, LogOut, LayoutDashboard, UserCircle, UserPlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 type Me = { email: string | null; isAdmin: boolean };
@@ -30,17 +30,33 @@ export function AuthNav({ mobile = false }: { mobile?: boolean }) {
   if (me === null) return null; // avoid flicker until known
 
   if (!me.email) {
+    if (mobile) {
+      return (
+        <div className="grid grid-cols-2 gap-3">
+          <Link href="/login" className="flex items-center justify-center gap-2 rounded-xl bg-surface px-3 py-3 text-sm font-semibold text-ink">
+            <LogIn className="h-4 w-4" /> Login
+          </Link>
+          <Link href="/register" className="flex items-center justify-center gap-2 rounded-xl bg-surface px-3 py-3 text-sm font-semibold text-ink">
+            <UserPlus className="h-4 w-4" /> Register
+          </Link>
+        </div>
+      );
+    }
     return (
-      <Link
-        href="/login"
-        className={
-          mobile
-            ? "flex items-center justify-center gap-2 rounded-xl bg-surface px-3 py-3 text-sm font-semibold text-ink"
-            : "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-body hover:text-brand-700"
-        }
-      >
-        <LogIn className="h-4 w-4" /> Login
-      </Link>
+      <div className="flex items-center gap-1">
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-body hover:text-brand-700"
+        >
+          <LogIn className="h-4 w-4" /> Login
+        </Link>
+        <Link
+          href="/register"
+          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-body hover:text-brand-700"
+        >
+          <UserPlus className="h-4 w-4" /> Register
+        </Link>
+      </div>
     );
   }
 

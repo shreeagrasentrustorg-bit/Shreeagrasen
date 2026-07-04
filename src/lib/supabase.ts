@@ -68,6 +68,55 @@ export async function insertResilient(
 export const BOOKING_BUCKET = "booking-documents";
 export const MEMBER_BUCKET = "member-documents";
 
+/**
+ * Create a new auth user that is ALREADY email-confirmed, via the Supabase
+ * Auth Admin REST API (service-role key). This registers the member directly —
+ * no confirmation email is sent and no verification step is required, so they
+ * can sign in immediately. Uses raw REST (no supabase-js client) so it works on
+ * every Node runtime.
+ *
+ * @returns `{ ok: true }` on success, or `{ error }` with a friendly message.
+ */
+export async function adminCreateUser(
+  email: string,
+  password: string,
+  fullName?: string
+): Promise<{ ok?: true; error?: string }> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceKey) {
+    return { error: "Registration is not configured yet (missing service-role key)." };
+  }
+  try {
+    const res = await fetch(`${url}/auth/v1/admin/users`, {
+      method: "POST",
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        email_confirm: true, // mark verified → no confirmation email needed
+        user_metadata: fullName ? { full_name: fullName } : {},
+      }),
+    });
+    if (res.ok) return { ok: true };
+
+    const detail = await res.text().catch(() => "");
+    // Supabase returns 422 when the email is already registered.
+    if (res.status === 422 || /already.*registered|already been registered|exists/i.test(detail)) {
+      return { error: "An account with this email already exists. Please sign in instead." };
+    }
+    console.error(`[adminCreateUser] ${res.status}:`, detail);
+    return { error: "Could not create your account. Please try again or contact the office." };
+  } catch (e) {
+    console.error("[adminCreateUser] failed:", e);
+    return { error: "Could not create your account. Please try again." };
+  }
+}
+
 /** Service-role REST context, or null if the key/url aren't configured. */
 function serviceEnv() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

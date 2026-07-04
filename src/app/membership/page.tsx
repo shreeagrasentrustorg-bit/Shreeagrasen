@@ -68,8 +68,8 @@ export default function MembershipPage() {
             your account.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/member" size="lg">
-              Apply for Membership <ArrowRight className="h-5 w-5" />
+            <ButtonLink href="/register" size="lg">
+              Create account <ArrowRight className="h-5 w-5" />
             </ButtonLink>
             <ButtonLink href="/login" variant="outline" size="lg">
               Sign in
